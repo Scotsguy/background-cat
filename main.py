@@ -27,17 +27,16 @@ async def on_ready():
 async def on_message(message):
     if message.author.bot:
         return
-
-    if message.guild.me.mentioned_in(message):
-        embed = discord.Embed(
-            title="A bot to parse logfiles on the MultiMC discord",
-            description="Developed by AppleTheGolden#7645. [Source Code](https://github.com/Scotsguy/parserbot)",
-            colour=discord.Colour.dark_orange(),
-        )
-    await message.author.send(embed=embed)
-
     if message.guild is None:
         return
+
+    if message.guild.me.mentioned_in(message):
+        info_embed = discord.Embed(
+            title="<:backgroundcat:280120125284417536>A bot to parse logfiles on the MultiMC discord<:backgroundcat:280120125284417536>",
+            description="Developed by AppleTheGolden#7645.\n\n[Source Code available under AGPLv3](https://github.com/Scotsguy/parserbot)",
+            colour=discord.Colour.teal(),
+        )
+        await message.author.send(embed=info_embed)
 
     link = pastee_regex.search(message.content)
     if not link:

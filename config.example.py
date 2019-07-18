@@ -16,3 +16,4 @@ JAVA_LINK = "https://java.com/en/download/manual.jsp"
 class Severity(enum.Enum):
     SEVERE = "\N{DOUBLE EXCLAMATION MARK}"
     IMPORTANT = "\N{HEAVY EXCLAMATION MARK SYMBOL}"
+    WARNING = "\N{WARNING SIGN}"
