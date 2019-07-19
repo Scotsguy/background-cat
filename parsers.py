@@ -42,13 +42,13 @@ def check_java_arch(log):
         )
 
 
-check_ram_amount_regex = re.compile(r"(?<=-Xmx)(.+(?=[m]))")
+check_ram_amount_regex = re.compile(r"-Xmx(\d+)m[,\]]")
 
 
 def check_ram_amount(log):
     match = check_ram_amount_regex.search(log)
     if match:
-        ram_amount = int(match.group(0))
+        ram_amount = int(match.group(1))
         if ram_amount < 2000:
             return (
                 config.Severity.IMPORTANT,
