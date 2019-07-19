@@ -10,7 +10,7 @@ import re
 
 logging.basicConfig(level=logging.INFO)
 
-client = discord.Client()
+client = discord.Client(activity=discord.Game("DM me!"), guild_subscriptions=False)
 
 # Expand to more providers, perhaps?
 pastee_regex = re.compile(r"https:\/{2}paste.ee\/p\/[^\s/]+")
@@ -68,7 +68,12 @@ async def on_message(message):
     if message.guild is None or message.guild.me.mentioned_in(message):
         info_embed = discord.Embed(
             title="<:backgroundcat:280120125284417536>A bot to parse logfiles on the MultiMC discord<:backgroundcat:280120125284417536>",
-            description=f"Developed by {str(client.get_user(185461862878543872))}.\nTo start, just post a https://paste.ee link in the discord\n\n[Source Code available under AGPLv3](https://github.com/Scotsguy/parserbot)",
+            description=f"""
+            Developed by {str(client.get_user(185461862878543872))}.
+            To start, just post a https://paste.ee link in the Discord.
+            
+            [Source Code available under AGPLv3](https://github.com/Scotsguy/parserbot)
+            """,
             colour=discord.Colour.teal(),
         )
         await message.author.send(embed=info_embed)
