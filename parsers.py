@@ -24,7 +24,7 @@ def check_java_version(log):
     if match:
         return (
             config.Severity.SEVERE,
-            f"You're using Java {match.group(1)}, which is not supported. You should install Java 8 from [this link]({config.JAVA_LINK})",
+            f"You're using Java {match.group(1)}, which is not supported by Minecraft. You should install Java 8 from [this link]({config.JAVA_LINK})",
         )
 
 
