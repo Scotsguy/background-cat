@@ -53,6 +53,7 @@ async def handle_self_delete(message):
         await message.delete()
 
 
+
 @client.event
 async def on_ready():
     print(f"Logged in as: {client.user}")
@@ -66,6 +67,13 @@ async def on_message(message):
         return
 
     if message.guild is None or message.guild.me.mentioned_in(message):
+        if message.author.id in config.OWNERS and message.content.startswith("restart"):
+            await message.channel.send("Restarting without updating...")
+            exit(6)
+        if message.author.id in config.OWNERS and message.content.startswith("update"):
+            await message.channel.send("Restarting and updating from git...")
+            exit(7)
+
         info_embed = discord.Embed(
             title="<:backgroundcat:280120125284417536>A bot to parse logfiles on the MultiMC discord<:backgroundcat:280120125284417536>",
             description=f"""
