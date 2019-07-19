@@ -44,7 +44,9 @@ async def handle_self_delete(message):
 
     await message.add_reaction("\N{NO ENTRY SIGN}")
     try:
-        await client.wait_for("reaction_add", timeout=120.0, check=deletion_check)
+        await client.wait_for(
+            "reaction_add", timeout=config.DELETE_TIMEOUT, check=deletion_check
+        )
     except asyncio.TimeoutError:
         await message.remove_reaction("\N{NO ENTRY SIGN}", message.guild.me)
     else:

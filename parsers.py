@@ -67,4 +67,3 @@ __all__ = [
     check_java_arch,
     check_ram_amount,
 ]
-
