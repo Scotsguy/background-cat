@@ -72,7 +72,7 @@ async def on_message(message):
             Developed by {str(client.get_user(185461862878543872))}.
             To start, just post a https://paste.ee link in the Discord.
             
-            [Source Code available under AGPLv3](https://github.com/Scotsguy/parserbot)
+            [Source Code available under AGPLv3](https://gitlab.com/Scotsguy/background-cat)
             """,
             colour=discord.Colour.teal(),
         )
