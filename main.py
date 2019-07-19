@@ -62,13 +62,11 @@ async def on_ready():
 async def on_message(message):
     if message.author.bot:
         return
-    if message.guild is None:
-        return
 
-    if message.guild.me.mentioned_in(message):
+    if message.guild is None or message.guild.me.mentioned_in(message):
         info_embed = discord.Embed(
             title="<:backgroundcat:280120125284417536>A bot to parse logfiles on the MultiMC discord<:backgroundcat:280120125284417536>",
-            description="Developed by AppleTheGolden#7645.\n\n[Source Code available under AGPLv3](https://github.com/Scotsguy/parserbot)",
+            description=f"Developed by {str(client.get_user(185461862878543872))}.\nTo start, just post a https://paste.ee link in the discord\n\n[Source Code available under AGPLv3](https://github.com/Scotsguy/parserbot)",
             colour=discord.Colour.teal(),
         )
         await message.author.send(embed=info_embed)
