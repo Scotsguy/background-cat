@@ -12,7 +12,7 @@ def check_multimc_in_program_files(log):
     if match:
         return (
             config.Severity.SEVERE,
-            "Your MultiMC installation is in Program Files, where MultiMC doesn't have permission to write.\nMove it somewhere else, like your Desktop",
+            "Your MultiMC installation is in Program Files, where MultiMC doesn't have permission to write.\nMove it somewhere else, like your Desktop.",
         )
 
 
@@ -24,7 +24,7 @@ def check_java_version(log):
     if match:
         return (
             config.Severity.SEVERE,
-            f"You're using Java {match.group(1)}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. You should install Java 8 from [this link]({config.JAVA_LINK})",
+            f"You're using Java {match.group(1)}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. You should install Java 8 from [this link]({config.JAVA_LINK}).",
         )
 
 
@@ -38,7 +38,7 @@ def check_java_arch(log):
     if match:
         return (
             config.Severity.IMPORTANT,
-            f"You're using 32-bit Java. You should install 64-bit Java from [this link]({config.JAVA_LINK})",
+            f"You're using 32-bit Java. You should install 64-bit Java from [this link]({config.JAVA_LINK}).",
         )
 
 
@@ -61,9 +61,24 @@ def check_ram_amount(log):
             )
 
 
+check_class_not_found_regex = re.compile(
+    r"Caused by: java\.lang\.ClassNotFoundException: (.+)(?![\s\S]+^Caused by:)"
+)
+
+
+def check_class_not_found(log):
+    match = check_class_not_found_regex.search(log)
+    if match:
+        return (
+            config.Severity.IMPORTANT,
+            f"The following class was not found: {match.group(1)}. This is likely caused by a missing dependency.",
+        )
+
+
 __all__ = [
     check_multimc_in_program_files,
     check_java_version,
+    check_class_not_found,
     check_java_arch,
     check_ram_amount,
 ]
