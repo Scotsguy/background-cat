@@ -8,7 +8,13 @@ import config
 import parsers
 import re
 
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("discord")
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename="background-cat.log", encoding="utf-8", mode="w")
+handler.setFormatter(
+    logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
+)
+logger.addHandler(handler)
 
 client = discord.Client(activity=discord.Game("DM me!"), guild_subscriptions=False)
 
@@ -53,10 +59,9 @@ async def handle_self_delete(message):
         await message.delete()
 
 
-
 @client.event
 async def on_ready():
-    print(f"Logged in as: {client.user}")
+    logging.getLogger("discord").info(f"Logged in as: {client.user}")
     if not hasattr(client, "httpsession"):
         client.httpsession = aiohttp.ClientSession()
 
