@@ -74,7 +74,8 @@ def check_ram_amount(log):
 
 
 check_class_not_found_regex = re.compile(
-    r"Caused by: java\.lang\.ClassNotFoundException: (.+)(?![\s\S]+^Caused by:)"
+    r"Caused by: java\.lang\.ClassNotFoundException: (.+)(?![\s\S]+^Caused by:)",
+    flags=re.MULTILINE,
 )
 
 
@@ -93,4 +94,5 @@ __all__ = [
     check_class_not_found,
     check_java_arch,
     check_ram_amount,
+    check_server_java,
 ]
