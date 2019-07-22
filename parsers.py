@@ -16,6 +16,18 @@ def check_multimc_in_program_files(log):
         )
 
 
+check_server_java_regex = re.compile(r"OpenJDK .{2}-Bit Server VM warning")
+
+
+def check_server_java(log):
+    match = check_server_java.search(log)
+    if match:
+        return (
+            config.Severity.SEVERE,
+            "You're using the server version of Java. You should install the desktop version from [this link]({config.JAVA_LINK}).",
+        )
+
+
 check_java_version_regex = re.compile(r"Java is version (6|7|9|10|11|12)+\..+,")
 
 
