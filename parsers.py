@@ -61,12 +61,7 @@ def check_ram_amount(log):
     match = check_ram_amount_regex.search(log)
     if match:
         ram_amount = int(match.group(1))
-        if ram_amount < 2000:
-            return (
-                config.Severity.IMPORTANT,
-                f"You have only allocated {round(ram_amount/1000,1)}GB of RAM to Minecraft. This is not enough for anything other than vanilla. Raise it to at least 2GB to avoid memory issues.",
-            )
-        elif ram_amount > 10000:
+        if ram_amount > 10000:
             return (
                 config.Severity.WARNING,
                 f"You have allocated {round(ram_amount/1000,1)}GB of RAM to Minecraft. [This is too much and can cause lagspikes.](https://vazkii.net/#blog/ram-explanation)",
