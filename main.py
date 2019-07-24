@@ -73,12 +73,9 @@ async def on_message(message):
         return
 
     if message.guild is None or message.guild.me.mentioned_in(message):
-        if message.author.id in config.OWNERS and message.content.startswith("restart"):
-            await message.channel.send("Restarting without updating...")
-            exit(6)
-        if message.author.id in config.OWNERS and message.content.startswith("update"):
-            await message.channel.send("Restarting and updating from git...")
-            exit(7)
+        if message.author.id in config.OWNERS and message.content.startswith("stop"):
+            await message.channel.send("Stopping...")
+            await client.logout()
 
         info_embed = discord.Embed(
             title="<:backgroundcat:280120125284417536>A bot to parse logfiles on the MultiMC discord<:backgroundcat:280120125284417536>",
