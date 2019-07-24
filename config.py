@@ -1,7 +1,5 @@
 import enum
 
-TOKEN = ""
-
 OWNERS = [302099567757754368, 185461862878543872]
 
 PRIVILEDGED_USERS = [185461862878543872, 238711994847461376]
@@ -9,8 +7,10 @@ PRIVILEDGED_ROLES = [
     311142723518464000,  # Regular
     134403532873793536,  # Moderator
     269384758914449409,  # Overlord
-]  # These roles can delete messages the bot sends by reacting with :no_entry_sign:
+]  
+# These roles can delete messages the bot sends by reacting with :no_entry_sign:
 # Important: Compared with the highest role of a member
+
 DELETE_TIMEOUT = 240.0  # Float
 
 JAVA_LINK = "https://java.com/en/download/manual.jsp"

@@ -1,12 +1,13 @@
 import asyncio
 import logging
+import re
 
 import aiohttp
 import discord
 
 import config
 import parsers
-import re
+import secret
 
 logger = logging.getLogger("discord")
 logger.setLevel(logging.DEBUG)
@@ -103,4 +104,4 @@ async def on_message(message):
         await handle_self_delete(await message.channel.send(embed=mistakes_embed))
 
 
-client.run(config.TOKEN)
+client.run(secret.TOKEN)
