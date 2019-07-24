@@ -20,7 +20,7 @@ check_server_java_regex = re.compile(r"OpenJDK .{2}-Bit Server VM warning")
 
 
 def check_server_java(log):
-    match = check_server_java.search(log)
+    match = check_server_java_regex.search(log)
     if match:
         return (
             config.Severity.SEVERE,
