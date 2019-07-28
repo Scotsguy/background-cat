@@ -28,7 +28,7 @@ def check_server_java(log):
         )
 
 
-check_java_version_regex = re.compile(r"Java is version (6|7|9|10|11|12)+\..+,")
+check_java_version_regex = re.compile(r"Java is version (1.)??(?P<ver>6|7|9|10|11|12)+\..+,")
 
 
 def check_java_version(log):
@@ -36,7 +36,7 @@ def check_java_version(log):
     if match:
         return (
             config.Severity.SEVERE,
-            f"You're using Java {match.group(1)}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. You should install Java 8 from [this link]({config.JAVA_LINK}).",
+            f"You're using Java {match.group('ver')}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. You should install Java 8 from [this link]({config.JAVA_LINK}).",
         )
 
 
