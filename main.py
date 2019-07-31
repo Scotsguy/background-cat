@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import re
+import datetime
 
 import aiohttp
 import discord
@@ -33,7 +34,11 @@ async def handle_common_mistakes(log):
     embed = discord.Embed(
         title="Automated Response (Warning: Experimental)",
         colour=discord.Colour.dark_teal(),
-    ).set_footer(text="This might not solve your problems, but it could be worth a try")
+        timestamp=datetime.datetime.utcnow(),
+    ).set_footer(
+        text="This might not solve your problems, but it could be worth a try",
+        icon_url="https://cdn.discordapp.com/emojis/280120125284417536.png?v=1",
+    )
 
     for field in info_text:
         embed.add_field(name=field[0].value, value=field[1], inline=True)
@@ -86,6 +91,7 @@ async def on_message(message):
             [Source Code available under AGPLv3](https://gitlab.com/Scotsguy/background-cat)
             """,
             colour=discord.Colour.teal(),
+            timestamp=datetime.datetime.utcnow(),
         )
         await message.author.send(embed=info_embed)
 
