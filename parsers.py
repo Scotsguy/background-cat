@@ -79,7 +79,7 @@ def check_class_not_found(log):
     if match:
         return (
             config.Severity.IMPORTANT,
-            f"The following class was not found: {match.group(1)}. This is likely caused by a missing dependency.",
+            f"The following class was not found: {match.group(1)}. This is likely caused by a missing or outdated dependency.",
         )
 
 
