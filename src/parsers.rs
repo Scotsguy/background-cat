@@ -73,12 +73,15 @@ fn ram_amount(log: &str) -> Option<(&str, String)> {
         let amount = capture.name("amount")?.as_str().parse::<f32>();
         let amount = match amount {
             Ok(o) => o,
-            Err(why) => {warn!("Couldn't parse RAM amount: {:?}", why); return None}
+            Err(why) => {
+                warn!("Couldn't parse RAM amount: {:?}", why);
+                return None;
+            }
         };
         let amount = amount / 1000.0; // Megabytes => Gigabytes
 
         if amount > 10.0 {
-             return Some(("⚠", format!("You have allocated {}GB of RAM to Minecraft. [This is too much and can cause lagspikes.](https://vazkii.net/#blog/ram-explanation)", amount )))
+            return Some(("⚠", format!("You have allocated {}GB of RAM to Minecraft. [This is too much and can cause lagspikes.](https://vazkii.net/#blog/ram-explanation)", amount )));
         };
     }
     None

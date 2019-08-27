@@ -4,7 +4,7 @@ use regex::Regex;
 use reqwest::get;
 
 use serenity::{
-    model::{channel::Message,id::UserId, gateway::Ready},
+    model::{channel::Message, gateway::Activity, gateway::Ready, id::UserId, user::OnlineStatus},
     prelude::*,
     utils::Colour,
 };
@@ -13,7 +13,6 @@ use log::{debug, error, info};
 
 mod parsers;
 use parsers::PARSERS;
-
 
 fn main() {
     kankyo::load(false).expect("Expected a .env file");
@@ -44,7 +43,7 @@ struct Handler;
 impl EventHandler for Handler {
     fn message(&self, ctx: Context, msg: Message) {
         if msg.author.bot {
-            return
+            return;
         }
 
         if msg.is_private() {
@@ -115,10 +114,11 @@ impl EventHandler for Handler {
 
     // TODO: delete on reaction
 
-    fn ready(&self, _: Context, ready: Ready) {
+    fn ready(&self, ctx: Context, ready: Ready) {
         info!(
             "{}#{} is connected!",
             ready.user.name, ready.user.discriminator
         );
+        ctx.set_presence(Some(Activity::playing("DM me!")), OnlineStatus::Online);
     }
 }
