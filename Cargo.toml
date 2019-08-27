@@ -1,0 +1,23 @@
+[package]
+name = "background_cat"
+version = "0.1.0"
+authors = ["AppleTheGolden <scotsbox@protonmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+regex = "1.2.1"
+lazy_static = "1.4.0"
+reqwest = "0.9"
+log = { version = "0.4.8", features = ["release_max_level_info"]}
+env_logger = "0.6.2"
+kankyo = "0.3.0"
+
+[dependencies.serenity]
+version = "0.6.3"
+default-features = false
+features = ["client", "model", "gateway", "native_tls_backend", "cache", "utils"]
+
+[profile.release]
+lto = true

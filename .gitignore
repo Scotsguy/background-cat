@@ -1,4 +1,4 @@
-__pycache__
-secret.py
-background-cat.log
-.vscode
+/target
+**/*.rs.bk
+
+.env
