@@ -50,7 +50,8 @@ impl EventHandler for Handler {
             if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                 m.embed(|e| {
                     e.title("<:backgroundcat:280120125284417536>A bot to parse logfiles on the MultiMC discord<:backgroundcat:280120125284417536>");
-                    let creator_name = match UserId::from(185461862878543872).to_user(&ctx) { //185461862878543872
+                    #[allow(clippy::unreadable_literal)]
+                    let creator_name = match UserId::from(185461862878543872).to_user(&ctx) {
                         Ok(o) => o.tag(),
                         Err(why) => {error!("Couldn't get info about creator: {}", why); "<Error getting name>".to_string()}
                     };

@@ -9,13 +9,13 @@ edition = "2018"
 [dependencies]
 regex = "1.2.1"
 lazy_static = "1.4.0"
-reqwest = "0.9"
+reqwest = "0.9.20"
 log = { version = "0.4.8", features = ["release_max_level_info"]}
 env_logger = "0.6.2"
 kankyo = "0.3.0"
 
 [dependencies.serenity]
-version = "0.6.3"
+version = "0.7.0"
 default-features = false
 features = ["client", "model", "gateway", "native_tls_backend", "cache", "utils"]
 
