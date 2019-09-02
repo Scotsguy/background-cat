@@ -81,14 +81,19 @@ impl EventHandler for Handler {
                 msg.id
             );
 
-            let link = link.as_str().replacen("/p/", "/r/", 1);
-            let log = match get_log(&link) {
+            let link_raw = link.as_str().replacen("/p/", "/r/", 1);
+            let log = match get_log(&link_raw) {
                 Ok(o) => o,
                 Err(_) => return,
             };
             debug!("Content of log: {}", log);
 
             let mistakes = common_mistakes(&log);
+
+            if mistakes.is_empty() {
+                info!("Didn't find any mistakes in log ({})", link.as_str());
+                return
+            }
             debug!("Mistakes found: {:?}", mistakes);
 
             if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
