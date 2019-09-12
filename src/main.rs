@@ -4,7 +4,7 @@ use regex::Regex;
 use reqwest::get;
 
 use serenity::{
-    model::{channel::Message, gateway::Activity, gateway::Ready, id::UserId, user::OnlineStatus},
+    model::{channel::Message, gateway::Ready, id::UserId},
     prelude::*,
     utils::Colour,
 };
@@ -59,7 +59,7 @@ impl EventHandler for Handler {
                     e.description(format!(r"
                 Developed by {}.
                 To start, just post a https://paste.ee link in the Discord.
-                
+
                 [Source Code available under AGPLv3](https://gitlab.com/Scotsguy/background-cat)
                 ", creator_name));
                     e
@@ -92,7 +92,7 @@ impl EventHandler for Handler {
 
             if mistakes.is_empty() {
                 info!("Didn't find any mistakes in log ({})", link.as_str());
-                return
+                return;
             }
             debug!("Mistakes found: {:?}", mistakes);
 
@@ -121,6 +121,8 @@ impl EventHandler for Handler {
     // TODO: delete on reaction
 
     fn ready(&self, ctx: Context, ready: Ready) {
+        use serenity::model::{gateway::Activity, user::OnlineStatus};
+
         info!(
             "{}#{} is connected!",
             ready.user.name, ready.user.discriminator
