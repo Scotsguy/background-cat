@@ -28,7 +28,7 @@ fn multimc_in_program_files(log: &str) -> Option<(&str, String)> {
 fn server_java(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "-Bit Server VM warning";
     if log.contains(TRIGGER) {
-        Some(("‼", "You're using the server version of Java. You should install the desktop version from [this link](https://java.com/en/download/manual.jsp).".to_string()))
+        Some(("‼", "You're using the server version of Java. You should install the desktop version via your distribution's package manager.".to_string()))
     } else {
         None
     }
