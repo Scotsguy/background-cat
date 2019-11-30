@@ -5,9 +5,10 @@ use regex::Regex;
 
 pub type Check = fn(&str) -> Option<(&str, String)>;
 
-pub static PARSERS: [Check; 6] = [
+pub static PARSERS: [Check; 7] = [
     multimc_in_program_files,
     server_java,
+    buildsystem_forge,
     java_version,
     id_range_exceeded,
     java_architecture,
@@ -33,6 +34,30 @@ fn server_java(log: &str) -> Option<(&str, String)> {
         None
     }
 }
+
+fn buildsystem_forge(log: &str) -> Option<(&str, String)> {
+    lazy_static! {
+        static ref RE: Regex =
+            Regex::new(r"net\.minecraftforge/(?P<major>2(5|6|7|8))\.[0-9]+\.[0-9]+\.json").unwrap();
+    }
+    if let Some(capture) = RE.captures(log) {
+        let mc_version = match capture.name("major")?.as_str() {
+            "25" => "1.13.2",
+            "26" => "1.14.2",
+            "27" => "1.14.3",
+            "28" => "1.14.4",
+            _ => "<unknown version>",
+        };
+
+        Some(("‼", format!(
+             "You're trying to use Forge for Minecraft version {}. This is not supported by MultiMC. For more information, please see [this link.](https://multimc.org/posts/forge-114.html)",
+             mc_version).to_string()
+            ))
+    } else {
+        None
+    }
+}
+
 fn id_range_exceeded(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str =
         "java.lang.RuntimeException: Invalid id 4096 - maximum id range exceeded.";
