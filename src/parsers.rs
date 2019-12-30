@@ -51,7 +51,7 @@ fn buildsystem_forge(log: &str) -> Option<(&str, String)> {
 
         Some(("‼", format!(
              "You're trying to use Forge for Minecraft version {}. This is not supported by MultiMC. For more information, please see [this link.](https://multimc.org/posts/forge-114.html)",
-             mc_version).to_string()
+             mc_version)
             ))
     } else {
         None
