@@ -1,21 +1,21 @@
 #![deny(dead_code)]
 
 use lazy_static::lazy_static;
+use log::warn;
 use regex::Regex;
 
 pub type Check = fn(&str) -> Option<(&str, String)>;
 
-pub static PARSERS: [Check; 7] = [
+pub static PARSERS: [Check; 8] = [
     multimc_in_program_files,
     server_java,
     buildsystem_forge,
     java_version,
     id_range_exceeded,
+    out_of_memory_error,
     java_architecture,
     ram_amount,
 ];
-
-use log::warn;
 
 fn multimc_in_program_files(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "Minecraft folder is:\nC:/Program Files";
@@ -63,6 +63,14 @@ fn id_range_exceeded(log: &str) -> Option<(&str, String)> {
         "java.lang.RuntimeException: Invalid id 4096 - maximum id range exceeded.";
     if log.contains(TRIGGER) {
         Some(("‼", "You've exceeded the hardcoded ID Limit. Remove some mods, or install [this one](https://www.curseforge.com/minecraft/mc-mods/notenoughids)".to_string()))
+    } else {
+        None
+    }
+}
+fn out_of_memory_error(log: &str) -> Option<(&str, String)> {
+    const TRIGGER: &str = "java.lang.OutOfMemoryError";
+    if log.contains(TRIGGER) {
+        Some(("‼", "You've run out of memory. You should allocate more, although the exact value depends on how many mods you have installed.".to_string()))
     } else {
         None
     }
