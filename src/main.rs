@@ -1,6 +1,7 @@
 use lazy_static::lazy_static;
+use log::{debug, error, info};
+use rayon::prelude::*;
 use regex::Regex;
-
 use reqwest::get;
 
 use serenity::{
@@ -8,8 +9,6 @@ use serenity::{
     prelude::*,
     utils::Colour,
 };
-
-use log::{debug, error, info};
 
 mod parsers;
 use parsers::PARSERS;
@@ -28,7 +27,7 @@ fn main() {
 }
 
 fn common_mistakes(input: &str) -> Vec<(&str, String)> {
-    PARSERS.iter().flat_map(|m| m(input)).collect()
+    PARSERS.par_iter().flat_map(|m| m(input)).collect()
 }
 
 /// Takes a string of an URL, returns the content.
