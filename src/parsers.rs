@@ -38,7 +38,8 @@ fn server_java(log: &str) -> Option<(&str, String)> {
 fn buildsystem_forge(log: &str) -> Option<(&str, String)> {
     lazy_static! {
         static ref RE: Regex =
-            Regex::new(r"net\.minecraftforge/(?P<major>2(5|6|7|8))\.[0-9]+\.[0-9]+\.json").unwrap();
+            Regex::new(r"net\.minecraftforge/(?P<major>(2[5-9]|30))\.[0-9]+\.[0-9]+\.json")
+                .unwrap();
     }
     if let Some(capture) = RE.captures(log) {
         let mc_version = match capture.name("major")?.as_str() {
@@ -46,6 +47,8 @@ fn buildsystem_forge(log: &str) -> Option<(&str, String)> {
             "26" => "1.14.2",
             "27" => "1.14.3",
             "28" => "1.14.4",
+            "29" => "1.15",
+            "30" => "1.15.1",
             _ => "<unknown version>",
         };
 
