@@ -20,7 +20,7 @@ pub static PARSERS: [Check; 8] = [
 fn multimc_in_program_files(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "Minecraft folder is:\nC:/Program Files";
     if log.contains(TRIGGER) {
-        Some(("‼", "Your MultiMC installation is in Program Files, where MultiMC doesn't have permission to write.\nMove it somewhere else, like your Desktop.".to_string()))
+        Some(("‼", "Your MultiMC installation is in Program Files, where MultiMC doesn't have permission to write.\nYou should move it somewhere else, like your Desktop.".to_string()))
     } else {
         None
     }
@@ -103,7 +103,7 @@ fn java_architecture(log: &str) -> Option<(&str, String)> {
 
 fn ram_amount(log: &str) -> Option<(&str, String)> {
     lazy_static! {
-        static ref RE: Regex = Regex::new(r"-Xmx(?P<amount>\d+)m[,\]]").unwrap();
+        static ref RE: Regex = Regex::new(r"-Xmx(?P<amount>[0-9]+)m[,\]]").unwrap();
     }
     if let Some(capture) = RE.captures(log) {
         let amount = capture.name("amount")?.as_str().parse::<f32>();
