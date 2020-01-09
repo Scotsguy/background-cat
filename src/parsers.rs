@@ -29,7 +29,7 @@ fn multimc_in_program_files(log: &str) -> Option<(&str, String)> {
 fn server_java(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "-Bit Server VM warning";
     if log.contains(TRIGGER) {
-        Some(("‼", "You're using the server version of Java. You should install the desktop version via your distribution's package manager.".to_string()))
+        Some(("‼", "You're using the server version of Java. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)".to_string()))
     } else {
         None
     }
@@ -82,7 +82,7 @@ fn java_version(log: &str) -> Option<(&str, String)> {
             Regex::new(r"Java is version (1.)??(?P<ver>6|7|9|10|11|12)+\..+,").unwrap();
     }
     if let Some(capture) = RE.captures(log) {
-        Some(("❗", format!("You're using Java {}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. You should install Java 8 from [this link](https://java.com/en/download/manual.jsp).",
+        Some(("❗", format!("You're using Java {}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)",
             capture.name("ver")?.as_str())))
     } else {
         None
