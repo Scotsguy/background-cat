@@ -6,10 +6,11 @@ use regex::Regex;
 
 pub type Check = fn(&str) -> Option<(&str, String)>;
 
-pub static PARSERS: [Check; 8] = [
+pub static PARSERS: [Check; 9] = [
     multimc_in_program_files,
     server_java,
     buildsystem_forge,
+    multimc_in_onedrive_managed_folder,
     java_version,
     id_range_exceeded,
     out_of_memory_error,
@@ -74,6 +75,17 @@ fn out_of_memory_error(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "java.lang.OutOfMemoryError";
     if log.contains(TRIGGER) {
         Some(("‼", "You've run out of memory. You should allocate more, although the exact value depends on how many mods you have installed.".to_string()))
+    } else {
+        None
+    }
+}
+
+fn multimc_in_onedrive_managed_folder(log: &str) -> Option<(&str, String)> {
+    lazy_static! {
+        static ref RE: Regex = Regex::new(r"Minecraft folder is:\nC:/.+/.+/OneDrive").unwrap();
+    }
+    if RE.is_match(log) {
+        Some(("❗", "MultiMC is located in a folder managed by OneDrive. OneDrive messes with Minecraft folders while the game is running, and this often leads to crashes.\nYou should move MultiMC to a different folder.".to_string()))
     } else {
         None
     }
