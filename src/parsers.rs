@@ -107,7 +107,7 @@ fn java_version(log: &str) -> Option<(&str, String)> {
 fn java_architecture(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "Your Java architecture is not matching your system architecture.";
     if log.contains(TRIGGER) {
-        Some(("❗", "You're using 32-bit Java. You should install 64-bit Java from [this link](https://java.com/en/download/manual.jsp).".to_string()))
+        Some(("❗", "You're using 32-bit Java. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)".to_string()))
     } else {
         None
     }
