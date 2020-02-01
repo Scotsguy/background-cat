@@ -7,18 +7,18 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-regex = "1.3.1"
+regex = "1.3.4"
 lazy_static = "1.4.0"
-reqwest = "0.9.24"
+reqwest = { version = "0.10.1", features = ["blocking", "json"] }
 log = { version = "0.4.8", features = ["release_max_level_info"] }
 env_logger = "0.7.1"
 kankyo = "0.3.0"
 rayon = "1.3.0"
 
 [dependencies.serenity]
-version = "0.7.4"
+version = "0.8.0"
 default-features = false
-features = ["client", "model", "gateway", "native_tls_backend", "cache", "utils"]
+features = ["client", "model", "gateway", "native_tls_backend", "cache", "utils", "framework", "standard_framework"]
 
 [profile.release]
 lto = true

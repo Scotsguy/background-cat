@@ -2,9 +2,10 @@ use lazy_static::lazy_static;
 use log::{debug, error, info};
 use rayon::prelude::*;
 use regex::Regex;
-use reqwest::get;
+use reqwest::blocking::get;
 
 use serenity::{
+    framework::standard::StandardFramework,
     model::{channel::Message, gateway::Ready, id::UserId},
     prelude::*,
     utils::Colour,
@@ -13,6 +14,9 @@ use serenity::{
 mod parsers;
 use parsers::PARSERS;
 
+mod commands;
+use commands::{STATICIMAGE_GROUP, STATICTEXT_GROUP};
+
 fn main() {
     kankyo::load(false).expect("Expected a .env file");
     env_logger::init();
@@ -20,6 +24,26 @@ fn main() {
     let token = std::env::var("DISCORD_TOKEN").expect("Expected a token in $DISCORD_TOKEN");
 
     let mut client = Client::new(&token, Handler).expect("Err creating client");
+
+    client.with_framework(
+        StandardFramework::new()
+            .configure(|c| {
+                c.with_whitespace(true)
+                    .allow_dm(false)
+                    .on_mention(Some(
+                        client
+                            .cache_and_http
+                            .http
+                            .get_current_application_info() // what a mouthful
+                            .expect("couldn't get info on the bot user")
+                            .id,
+                    ))
+                    .prefix(&std::env::var("BACKGROUND_CAT_PREFIX").unwrap_or_else(|_| "-".to_string()))
+                    .case_insensitivity(true)
+            })
+            .group(&STATICTEXT_GROUP)
+            .group(&STATICIMAGE_GROUP),
+    );
 
     if let Err(why) = client.start() {
         error!("Client error: {:?}", why);
