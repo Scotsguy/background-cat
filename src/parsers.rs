@@ -6,12 +6,13 @@ use regex::Regex;
 
 pub type Check = fn(&str) -> Option<(&str, String)>;
 
-pub static PARSERS: [Check; 9] = [
+pub static PARSERS: [Check; 10] = [
     multimc_in_program_files,
     server_java,
     buildsystem_forge,
     multimc_in_onedrive_managed_folder,
-    java_version,
+    major_java_version,
+    pixel_format_not_accelerated_win10,
     id_range_exceeded,
     out_of_memory_error,
     java_architecture,
@@ -91,7 +92,7 @@ fn multimc_in_onedrive_managed_folder(log: &str) -> Option<(&str, String)> {
     }
 }
 
-fn java_version(log: &str) -> Option<(&str, String)> {
+fn major_java_version(log: &str) -> Option<(&str, String)> {
     lazy_static! {
         static ref RE: Regex =
             Regex::new(r"Java is version (1.)??(?P<ver>6|7|9|10|11|12)+\..+,").unwrap();
@@ -99,6 +100,17 @@ fn java_version(log: &str) -> Option<(&str, String)> {
     if let Some(capture) = RE.captures(log) {
         Some(("❗", format!("You're using Java {}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)",
             capture.name("ver")?.as_str())))
+    } else {
+        None
+    }
+}
+
+fn pixel_format_not_accelerated_win10(log: &str) -> Option<(&str, String)> {
+    const LWJGL_EXCEPTION: &str = "org.lwjgl.LWJGLException: Pixel format not accelerated";
+    const WIN10: &str = "Operating System: Windows 10";
+    if log.contains(LWJGL_EXCEPTION) && log.contains(WIN10) {
+        Some(("❗", "You seem to be using an Intel GPU that is not supported on Windows 10. \
+         You will need to install an older version of Java, [see here for help](https://github.com/MultiMC/MultiMC5/wiki/Unsupported-Intel-GPUs)".to_string()))
     } else {
         None
     }
