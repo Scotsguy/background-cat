@@ -40,7 +40,7 @@ fn server_java(log: &str) -> Option<(&str, String)> {
 fn buildsystem_forge(log: &str) -> Option<(&str, String)> {
     lazy_static! {
         static ref RE: Regex =
-            Regex::new(r"net\.minecraftforge/(?P<major>(2[5-9]|30))\.[0-9]+\.[0-9]+\.json")
+            Regex::new(r"net\.minecraftforge/(?P<major>(2[5-9]|3[0-1]))\.[0-9]+\.[0-9]+\.json")
                 .unwrap();
     }
     if let Some(capture) = RE.captures(log) {
@@ -51,11 +51,15 @@ fn buildsystem_forge(log: &str) -> Option<(&str, String)> {
             "28" => "1.14.4",
             "29" => "1.15",
             "30" => "1.15.1",
+            "31" => "1.15.2",
             _ => "<unknown version>",
+            // When adding new versions, change the regex too
         };
 
         Some(("‼", format!(
-             "You're trying to use Forge for Minecraft version {}. This is not supported by MultiMC. For more information, please see [this link.](https://multimc.org/posts/forge-114.html)",
+             "You're trying to use Forge for Minecraft version {}. \
+              This is not supported by MultiMC. For more information, please see \
+              [this link.](https://multimc.org/posts/forge-114.html)",
              mc_version)
             ))
     } else {

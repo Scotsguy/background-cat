@@ -38,7 +38,9 @@ fn main() {
                             .expect("couldn't get info on the bot user")
                             .id,
                     ))
-                    .prefix(&std::env::var("BACKGROUND_CAT_PREFIX").unwrap_or_else(|_| "-".to_string()))
+                    .prefix(
+                        &std::env::var("BACKGROUND_CAT_PREFIX").unwrap_or_else(|_| "-".to_string()),
+                    )
                     .case_insensitivity(true)
             })
             .group(&STATICTEXT_GROUP)
