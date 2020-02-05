@@ -6,7 +6,7 @@ use regex::Regex;
 
 pub type Check = fn(&str) -> Option<(&str, String)>;
 
-pub static PARSERS: [Check; 10] = [
+pub static PARSERS: [Check; 11] = [
     multimc_in_program_files,
     server_java,
     buildsystem_forge,
@@ -16,6 +16,7 @@ pub static PARSERS: [Check; 10] = [
     id_range_exceeded,
     out_of_memory_error,
     java_architecture,
+    old_multimc_version,
     ram_amount,
 ];
 
@@ -56,12 +57,15 @@ fn buildsystem_forge(log: &str) -> Option<(&str, String)> {
             // When adding new versions, change the regex too
         };
 
-        Some(("‼", format!(
-             "You're trying to use Forge for Minecraft version {}. \
+        Some((
+            "‼",
+            format!(
+                "You're trying to use Forge for Minecraft version {}. \
               This is not supported by MultiMC. For more information, please see \
               [this link.](https://multimc.org/posts/forge-114.html)",
-             mc_version)
-            ))
+                mc_version
+            ),
+        ))
     } else {
         None
     }
@@ -124,6 +128,32 @@ fn java_architecture(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "Your Java architecture is not matching your system architecture.";
     if log.contains(TRIGGER) {
         Some(("❗", "You're using 32-bit Java. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)".to_string()))
+    } else {
+        None
+    }
+}
+
+fn old_multimc_version(log: &str) -> Option<(&str, String)> {
+    lazy_static! {
+        static ref RE: Regex =
+            Regex::new(r"MultiMC version: (?P<major_ver>0\.[0-9]+\.[0-9]+-(?P<build>[0-9]+))\n")
+                .unwrap();
+    }
+    if let Some(capture) = RE.captures(log) {
+        match capture.name("build")?.as_str().parse::<u32>() {
+            Ok(o) => {
+                if o < 900 {
+                    Some(("❗", format!("You seem to be using an old build of MultiMC ({}). \
+                    Please update to a more recent version.", capture.name("major_ver")?.as_str())))
+                } else {
+                    None
+                }
+            },
+            Err(_) => {
+                Some(("❗", format!("You seem to be using an unofficial version of MultiMC ({}). \
+                Please only use MultiMC downloaded from [multimc.org](https://multimc.org/#Download).", capture.name("major_ver")?.as_str())))
+            }
+        }
     } else {
         None
     }
