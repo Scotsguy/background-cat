@@ -80,4 +80,5 @@ static_text_command! {
 static_image_command! {
     upload_log log, "https://cdn.discordapp.com/attachments/531598137790562305/575381000398569493/unknown.png", "Please upload your log:";
     select_java sjava, "https://cdn.discordapp.com/attachments/531598137790562305/575378380573114378/unknown.png", "Please select your Java version in the MultiMC settings:";
+    select_memory smemory sram, "https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png", "Please set your instance memory allocation:";
 }
