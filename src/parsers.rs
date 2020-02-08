@@ -106,8 +106,13 @@ fn major_java_version(log: &str) -> Option<(&str, String)> {
             Regex::new(r"Java is version (1.)??(?P<ver>6|7|9|10|11|12)+\..+,").unwrap();
     }
     if let Some(capture) = RE.captures(log) {
-        Some(("❗", format!("You're using Java {}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)",
-            capture.name("ver")?.as_str())))
+        Some((
+            "❗",
+            format!(
+                "You're using Java {}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)",
+                capture.name("ver")?.as_str()
+            ),
+        ))
     } else {
         None
     }
@@ -143,16 +148,26 @@ fn old_multimc_version(log: &str) -> Option<(&str, String)> {
         match capture.name("build")?.as_str().parse::<u32>() {
             Ok(o) => {
                 if o < 900 {
-                    Some(("❗", format!("You seem to be using an old build of MultiMC ({}). \
-                    Please update to a more recent version.", capture.name("major_ver")?.as_str())))
+                    Some((
+                        "❗",
+                        format!(
+                            "You seem to be using an old build of MultiMC ({}). \
+                            Please update to a more recent version.",
+                            capture.name("major_ver")?.as_str()
+                        ),
+                    ))
                 } else {
                     None
                 }
-            },
-            Err(_) => {
-                Some(("❗", format!("You seem to be using an unofficial version of MultiMC ({}). \
-                Please only use MultiMC downloaded from [multimc.org](https://multimc.org/#Download).", capture.name("major_ver")?.as_str())))
             }
+            Err(_) => Some((
+                "❗",
+                format!(
+                    "You seem to be using an unofficial version of MultiMC ({}). \
+                    Please only use MultiMC downloaded from [multimc.org](https://multimc.org/#Download).",
+                    capture.name("major_ver")?.as_str()
+                ),
+            )),
         }
     } else {
         None
@@ -175,7 +190,13 @@ fn ram_amount(log: &str) -> Option<(&str, String)> {
         let amount = amount / 1000.0; // Megabytes => Gigabytes
 
         if amount > 10.0 {
-            return Some(("⚠", format!("You have allocated {}GB of RAM to Minecraft. [This is too much and can cause lagspikes.](https://vazkii.net/#blog/ram-explanation)", amount )));
+            return Some((
+                "⚠",
+                format!(
+                    "You have allocated {}GB of RAM to Minecraft. [This is too much and can cause lagspikes.](https://vazkii.net/#blog/ram-explanation)",
+                    amount
+                ),
+            ));
         };
     }
     None
