@@ -103,18 +103,18 @@ fn multimc_in_onedrive_managed_folder(log: &str) -> Option<(&str, String)> {
 fn major_java_version(log: &str) -> Option<(&str, String)> {
     lazy_static! {
         static ref RE: Regex =
-            Regex::new(r"Java is version (1.)??(?P<ver>6|7|9|10|11|12)+\..+,").unwrap();
+            Regex::new(r"Java is version (1.)??(?P<ver>[1-9][0-9])+\..+,").unwrap();
     }
-    if let Some(capture) = RE.captures(log) {
-        Some((
+    match RE.captures(log) {
+        Some(capture) if capture.name("ver")?.as_str() == "8" => None,
+        Some(capture) => Some((
             "❗",
             format!(
                 "You're using Java {}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)",
                 capture.name("ver")?.as_str()
             ),
-        ))
-    } else {
-        None
+        )),
+        _ => None,
     }
 }
 
