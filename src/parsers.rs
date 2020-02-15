@@ -103,7 +103,7 @@ fn multimc_in_onedrive_managed_folder(log: &str) -> Option<(&str, String)> {
 fn major_java_version(log: &str) -> Option<(&str, String)> {
     lazy_static! {
         static ref RE: Regex =
-            Regex::new(r"Java is version (1.)??(?P<ver>[1-9][0-9])+\..+,").unwrap();
+            Regex::new(r"Java is version (1.)??(?P<ver>[1-9][0-9]?)+\..+,").unwrap();
     }
     match RE.captures(log) {
         Some(capture) if capture.name("ver")?.as_str() == "8" => None,
