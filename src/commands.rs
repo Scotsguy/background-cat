@@ -11,14 +11,15 @@ use serenity::{
 use log::{debug, error};
 
 macro_rules! static_text_command {
-    ( $($name:ident $($aliases:ident)*, $title:tt, $message:tt;)+ ) => {
-        #[group]
-        #[commands( $($name,)* )]
+    ( $($name:ident $($($aliases:ident)+)?, $title:tt, $message:tt;)+ ) => {
+        #[group("Text")]
+        #[commands( $($name),* )]
         struct StaticText;
 
         $(
             #[command]
-            $(#[aliases($aliases)])*
+            $( #[aliases($($aliases),+)] )?
+            #[only_in("guilds")]
             fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
                 if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                     m.embed(|e| {
@@ -41,14 +42,15 @@ macro_rules! static_text_command {
 }
 
 macro_rules! static_image_command {
-    ( $($name:ident $($aliases:ident)*, $image:tt$(, $message:tt)?;)+ ) => {
-        #[group]
+    ( $($name:ident $($($aliases:ident)+)?, $image:tt$(, $message:tt)?;)+ ) => {
+        #[group("Images")]
         #[commands( $($name,)* )]
         struct StaticImage;
 
         $(
             #[command]
-            $(#[aliases($aliases)])*
+            $( #[aliases($($aliases),+)] )?
+            #[only_in("guilds")]
             fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
                 if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                     m.embed(|e| {
