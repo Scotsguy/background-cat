@@ -1,7 +1,7 @@
 use serenity::{
     framework::standard::{
         macros::{command, group},
-        CommandResult,
+        Args, CommandResult,
     },
     model::channel::Message,
     prelude::*,
@@ -19,7 +19,7 @@ macro_rules! static_text_command {
         $(
             #[command]
             $(#[aliases($aliases)])*
-            fn $name(ctx: &mut Context, msg: &Message) -> CommandResult {
+            fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
                 if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                     m.embed(|e| {
                         e.title($title);
@@ -49,7 +49,7 @@ macro_rules! static_image_command {
         $(
             #[command]
             $(#[aliases($aliases)])*
-            fn $name(ctx: &mut Context, msg: &Message) -> CommandResult {
+            fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
                 if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                     m.embed(|e| {
                         e.image($image);
