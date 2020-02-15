@@ -5,7 +5,10 @@ use regex::Regex;
 use reqwest::blocking::get;
 
 use serenity::{
-    framework::standard::StandardFramework,
+    framework::standard::{
+        help_commands, macros::help, Args, CommandGroup, CommandResult, HelpOptions,
+        StandardFramework,
+    },
     model::{channel::Message, gateway::Ready, id::UserId},
     prelude::*,
     utils::Colour,
@@ -16,6 +19,7 @@ use parsers::PARSERS;
 
 mod commands;
 use commands::{STATICIMAGE_GROUP, STATICTEXT_GROUP};
+use std::collections::HashSet;
 
 fn main() {
     kankyo::load(false).expect("Expected a .env file");
@@ -44,12 +48,29 @@ fn main() {
                     .case_insensitivity(true)
             })
             .group(&STATICTEXT_GROUP)
-            .group(&STATICIMAGE_GROUP),
+            .group(&STATICIMAGE_GROUP)
+            .help(&MY_HELP),
     );
 
     if let Err(why) = client.start() {
         error!("Client error: {:?}", why);
     }
+}
+
+#[help]
+#[strikethrough_commands_tip_in_guild(" ")]
+#[strikethrough_commands_tip_in_dm(" ")]
+#[individual_command_tip = " "]
+#[max_levenshtein_distance(3)]
+fn my_help(
+    context: &mut Context,
+    msg: &Message,
+    args: Args,
+    help_options: &'static HelpOptions,
+    groups: &[&'static CommandGroup],
+    owners: HashSet<UserId>,
+) -> CommandResult {
+    help_commands::with_embeds(context, msg, args, help_options, groups, owners)
 }
 
 fn common_mistakes(input: &str) -> Vec<(&str, String)> {
