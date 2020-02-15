@@ -4,9 +4,9 @@ use lazy_static::lazy_static;
 use log::warn;
 use regex::Regex;
 
-pub type Check = fn(&str) -> Option<(&str, String)>;
+pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub static PARSERS: [Check; 11] = [
+pub(crate) const PARSERS: [Check; 11] = [
     multimc_in_program_files,
     server_java,
     buildsystem_forge,
