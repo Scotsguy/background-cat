@@ -6,7 +6,7 @@ use regex::Regex;
 
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub(crate) const PARSERS: [Check; 12] = [
+pub(crate) const PARSERS: [Check; 13] = [
     multimc_in_program_files,
     server_java,
     buildsystem_forge,
@@ -16,6 +16,7 @@ pub(crate) const PARSERS: [Check; 12] = [
     id_range_exceeded,
     out_of_memory_error,
     shadermod_optifine_conflict,
+    fabric_api_missing,
     java_architecture,
     old_multimc_version,
     ram_amount,
@@ -95,6 +96,23 @@ fn shadermod_optifine_conflict(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "java.lang.RuntimeException: Shaders Mod detected. Please remove it, OptiFine has built-in support for shaders.";
     if log.contains(TRIGGER) {
         Some(("‼", "You've installed Shaders Mod alongside OptiFine. OptiFine has built-in shader support, so you should remove Shaders Mod".to_string()))
+    } else {
+        None
+    }
+}
+
+fn fabric_api_missing(log: &str) -> Option<(&str, String)> {
+    const EXCEPTION: &str =
+        "net.fabricmc.loader.discovery.ModResolutionException: Could not find required mod:";
+    const FABRIC: &str = "requires {fabric @";
+
+    if log.contains(EXCEPTION) && log.contains(FABRIC) {
+        Some((
+            "‼",
+            "You are missing Fabric API, which is required by a mod. \
+        [Download the needed version here](https://www.curseforge.com/minecraft/mc-mods/fabric-api)"
+                .to_string(),
+        ))
     } else {
         None
     }
