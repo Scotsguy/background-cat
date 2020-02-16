@@ -6,7 +6,7 @@ use regex::Regex;
 
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub(crate) const PARSERS: [Check; 11] = [
+pub(crate) const PARSERS: [Check; 12] = [
     multimc_in_program_files,
     server_java,
     buildsystem_forge,
@@ -15,6 +15,7 @@ pub(crate) const PARSERS: [Check; 11] = [
     pixel_format_not_accelerated_win10,
     id_range_exceeded,
     out_of_memory_error,
+    shadermod_optifine_conflict,
     java_architecture,
     old_multimc_version,
     ram_amount,
@@ -80,10 +81,20 @@ fn id_range_exceeded(log: &str) -> Option<(&str, String)> {
         None
     }
 }
+
 fn out_of_memory_error(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "java.lang.OutOfMemoryError";
     if log.contains(TRIGGER) {
         Some(("‼", "You've run out of memory. You should allocate more, although the exact value depends on how many mods you have installed.".to_string()))
+    } else {
+        None
+    }
+}
+
+fn shadermod_optifine_conflict(log: &str) -> Option<(&str, String)> {
+    const TRIGGER: &str = "java.lang.RuntimeException: Shaders Mod detected. Please remove it, OptiFine has built-in support for shaders.";
+    if log.contains(TRIGGER) {
+        Some(("‼", "You've installed Shaders Mod alongside OptiFine. OptiFine has built-in shader support, so you should remove Shaders Mod".to_string()))
     } else {
         None
     }
