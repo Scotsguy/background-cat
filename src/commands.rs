@@ -100,11 +100,11 @@ fn info(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
                     };
                     e.colour(Colour::DARK_TEAL);
                     e.description(format!(r"
-                        Developed by {}.
-                        To start, just upload a log from MultiMC. (Type `-log` for help)
+Developed by {}.
+To start, just upload a log from MultiMC. (Type `-log` for help)
 
-                        [Source Code available under AGPLv3](https://gitlab.com/Scotsguy/background-cat)
-                        ", creator_name))
+[Source Code available under AGPLv3](https://gitlab.com/Scotsguy/background-cat)
+", creator_name))
                 });
                 m
             }) {
