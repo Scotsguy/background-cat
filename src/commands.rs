@@ -3,7 +3,7 @@ use serenity::{
         macros::{command, group},
         Args, CommandResult,
     },
-    model::channel::Message,
+    model::{channel::Message, id::UserId},
     prelude::*,
     utils::Colour,
 };
@@ -19,7 +19,6 @@ macro_rules! static_text_command {
         $(
             #[command]
             $( #[aliases($($aliases),+)] )?
-            #[only_in("guilds")]
             fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
                 if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                     m.embed(|e| {
@@ -50,7 +49,6 @@ macro_rules! static_image_command {
         $(
             #[command]
             $( #[aliases($($aliases),+)] )?
-            #[only_in("guilds")]
             fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
                 if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                     m.embed(|e| {
@@ -85,4 +83,32 @@ static_image_command! {
     upload_log log, "https://cdn.discordapp.com/attachments/531598137790562305/575381000398569493/unknown.png", "Please upload your log:";
     select_java sjava, "https://cdn.discordapp.com/attachments/531598137790562305/575378380573114378/unknown.png", "Please select your Java version in the MultiMC settings:";
     select_memory smemory sram, "https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png", "Please set your instance memory allocation:";
+}
+
+#[group]
+#[commands(info)]
+struct Other;
+
+#[command]
+fn info(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
+    if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
+                m.embed(|e| {
+                    e.title("<:backgroundcat:280120125284417536>A bot to parse logfiles on the MultiMC discord<:backgroundcat:280120125284417536>");
+                    let creator_name = match UserId::from(185_461_862_878_543_872).to_user(&ctx) {
+                        Ok(o) => o.tag(),
+                        Err(why) => {error!("Couldn't get info about creator: {}", why); "<Error getting name>".to_string()}
+                    };
+                    e.colour(Colour::DARK_TEAL);
+                    e.description(format!(r"
+                        Developed by {}.
+                        To start, just upload a log from MultiMC. (Type `-log` for help)
+
+                        [Source Code available under AGPLv3](https://gitlab.com/Scotsguy/background-cat)
+                        ", creator_name))
+                });
+                m
+            }) {
+                error!("Couldn't send info message: {}", why)
+            }
+    Ok(())
 }
