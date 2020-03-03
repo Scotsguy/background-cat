@@ -90,6 +90,8 @@ static_image_command! {
         "Please select your Java version in the MultiMC settings:";
     select_memory smemory sram, "https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png",
         "Please set your instance memory allocation:";
+    install_forge iforge, "https://cdn.discordapp.com/attachments/531598137790562305/575385471207866388/Install_Forge_in_MultiMC.gif",
+        "How to install Forge on Minecraft 1.12 and below:";
 }
 
 #[group]
