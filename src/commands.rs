@@ -73,16 +73,23 @@ macro_rules! static_image_command {
 
 // Format: Name (Optional Alias1 Alias2...) , Title , Message ;
 static_text_command! {
-    new_forge bsforge, "Forge in 1.13.2 and above is not supported in MultiMC.", "For more info, please read https://multimc.org/posts/forge-114.html";
-    install_java ijava, "Please install Java 8:", "https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java";
-    too_much_ram tmram vazkiiram, "Allocating too much RAM to Minecraft is bad for performance:", "https://vazkii.net/#blog/ram-explanation";
+    new_forge bsforge, "Forge in 1.13.2 and above is not supported in MultiMC.",
+        "For more info, please read https://multimc.org/posts/forge-114.html";
+    install_java ijava, "Please install Java 8:",
+        "https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java";
+    too_much_ram tmram vazkiiram,
+        "Allocating too much RAM to Minecraft is bad for performance:",
+        "https://vazkii.net/#blog/ram-explanation";
 }
 
 // Format: Name (Optional Alias1 Alias2...) , Image Link (, Optional Message) ;
 static_image_command! {
-    upload_log log, "https://cdn.discordapp.com/attachments/531598137790562305/575381000398569493/unknown.png", "Please upload your log:";
-    select_java sjava, "https://cdn.discordapp.com/attachments/531598137790562305/575378380573114378/unknown.png", "Please select your Java version in the MultiMC settings:";
-    select_memory smemory sram, "https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png", "Please set your instance memory allocation:";
+    upload_log log, "https://cdn.discordapp.com/attachments/531598137790562305/575381000398569493/unknown.png",
+        "Please upload your log:";
+    select_java sjava, "https://cdn.discordapp.com/attachments/531598137790562305/575378380573114378/unknown.png",
+        "Please select your Java version in the MultiMC settings:";
+    select_memory smemory sram, "https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png",
+        "Please set your instance memory allocation:";
 }
 
 #[group]
