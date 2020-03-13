@@ -140,7 +140,7 @@ dependencies = [
 [[package]]
 name = "command_attr"
 version = "0.1.7"
-source = "git+https://github.com/Lakelezz/serenity/?branch=await#015522efbc9b646d187a47b8c109477c310c89e9"
+source = "git+https://github.com/Lakelezz/serenity/?branch=await#20c24194e03eb48cf7bb9100d0a92ecb2cd9f6ff"
 dependencies = [
  "futures 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "proc-macro2 1.0.9 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -928,12 +928,13 @@ dependencies = [
 [[package]]
 name = "serenity"
 version = "0.8.0"
-source = "git+https://github.com/Lakelezz/serenity/?branch=await#015522efbc9b646d187a47b8c109477c310c89e9"
+source = "git+https://github.com/Lakelezz/serenity/?branch=await#20c24194e03eb48cf7bb9100d0a92ecb2cd9f6ff"
 dependencies = [
  "async-trait 0.1.24 (registry+https://github.com/rust-lang/crates.io-index)",
  "async-tungstenite 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "base64 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bitflags 1.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "bytes 0.5.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "chrono 0.4.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "command_attr 0.1.7 (git+https://github.com/Lakelezz/serenity/?branch=await)",
  "flate2 1.0.13 (registry+https://github.com/rust-lang/crates.io-index)",
