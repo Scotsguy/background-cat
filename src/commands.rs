@@ -19,7 +19,7 @@ macro_rules! static_text_command {
         $(
             #[command]
             $( #[aliases($($aliases),+)] )?
-            fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
+            async fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
                 if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                     m.embed(|e| {
                         e.title($title);
@@ -31,7 +31,7 @@ macro_rules! static_text_command {
                     });
                     debug!("Message: {:?}", m);
                     m
-                }) {
+                }).await {
                     error!("couldn't send message: {}", why);
                 }
                 Ok(())
@@ -49,7 +49,7 @@ macro_rules! static_image_command {
         $(
             #[command]
             $( #[aliases($($aliases),+)] )?
-            fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
+            async fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
                 if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                     m.embed(|e| {
                         e.image($image);
@@ -61,7 +61,7 @@ macro_rules! static_image_command {
                     });
                     debug!("Message: {:?}", m);
                     m
-                }) {
+                }).await {
                     error!("couldn't send message: {}", why);
                 }
                 Ok(())
@@ -99,14 +99,17 @@ static_image_command! {
 struct Other;
 
 #[command]
-fn info(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
+async fn info(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
+    let creator_name = match UserId::from(185_461_862_878_543_872).to_user(&ctx).await {
+        Ok(o) => o.tag(),
+        Err(why) => {
+            error!("Couldn't get info about creator: {}", why);
+            "<Error getting name>".to_string()
+        }
+    };
     if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
                 m.embed(|e| {
                     e.title("<:backgroundcat:280120125284417536>A bot to parse logfiles on the MultiMC discord<:backgroundcat:280120125284417536>");
-                    let creator_name = match UserId::from(185_461_862_878_543_872).to_user(&ctx) {
-                        Ok(o) => o.tag(),
-                        Err(why) => {error!("Couldn't get info about creator: {}", why); "<Error getting name>".to_string()}
-                    };
                     e.colour(Colour::DARK_TEAL);
                     e.description(format!(r"
 Developed by {}.
@@ -116,7 +119,7 @@ To start, just upload a log from MultiMC. (Type `-log` for help)
 ", creator_name))
                 });
                 m
-            }) {
+            }).await {
                 error!("Couldn't send info message: {}", why)
             }
     Ok(())
