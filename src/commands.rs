@@ -8,7 +8,9 @@ use serenity::{
     utils::Colour,
 };
 
+use lazy_static::lazy_static;
 use log::{debug, error};
+use regex::Regex;
 
 macro_rules! static_text_command {
     ( $($name:ident $($($aliases:ident)+)?, $title:tt, $message:tt;)+ ) => {
@@ -95,7 +97,7 @@ static_image_command! {
 }
 
 #[group]
-#[commands(info)]
+#[commands(info, drama)]
 struct Other;
 
 #[command]
@@ -122,5 +124,63 @@ To start, just upload a log from MultiMC. (Type `-log` for help)
             }).await {
                 error!("Couldn't send info message: {}", why)
             }
+    Ok(())
+}
+
+#[command]
+#[description = "Generate some Minecraft modding drama."]
+#[description = "Add 'fabric' as the first argument for Fabric-brand drama"]
+#[usage = "[fabric]"]
+async fn drama(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
+    const MC_DRAMA: &str = "https://ftb-drama.herokuapp.com";
+    const FABRIC_DRAMA: &str = "https://fabric-drama.herokuapp.com";
+
+    // H̸̡̪̯ͨ͊̽̅̾̎Ȩ̬̩̾͛ͪ̈́̀́͘ ̶̧̨̱̹̭̯ͧ̾ͬC̷̙̲̝͖ͭ̏ͥͮ͟Oͮ͏̮̪̝͍M̲̖͊̒ͪͩͬ̚̚͜Ȇ̴̟̟͙̞ͩ͌͝S̨̥̫͎̭ͯ̿̔̀ͅ
+    lazy_static! {
+        static ref DRAMA_REGEX: Regex =
+            Regex::new(r#"<div class=['"]drama['"]>(?P<drama>.+?)</div>"#).unwrap();
+        static ref PERMALINK_REGEX: Regex =
+            Regex::new(r#"<a href=['"](?P<link>.+)['"]>Permalink</a>"#).unwrap();
+    };
+
+    let dest = if msg.content.to_lowercase().contains("fabric") {
+        FABRIC_DRAMA
+    } else {
+        MC_DRAMA
+    };
+
+    let body = reqwest::get(dest).await?.text().await?;
+    let drama = DRAMA_REGEX
+        .captures(&body)
+        .unwrap()
+        .name("drama")
+        .unwrap()
+        .as_str();
+    let permalink = PERMALINK_REGEX
+        .captures(&body)
+        .unwrap()
+        .name("link")
+        .unwrap()
+        .as_str();
+    let permalink = dest.to_owned() + permalink;
+
+    if let Err(why) = msg
+        .channel_id
+        .send_message(&ctx.http, |m| {
+            m.embed(|e| {
+                e.title("MC Drama Generator");
+                e.description(drama);
+                e.colour(Colour::DARK_TEAL);
+                e.footer(|f| {
+                    f.icon_url("https://cdn.discordapp.com/emojis/280120125284417536.png?v=1");
+                    f.text(permalink)
+                })
+            })
+        })
+        .await
+    {
+        error!("Couldn't send drama: {}", why);
+    }
+
     Ok(())
 }
