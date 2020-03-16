@@ -61,6 +61,7 @@ async fn main() {
 #[strikethrough_commands_tip_in_dm(" ")]
 #[individual_command_tip = " "]
 #[max_levenshtein_distance(3)]
+#[embed_success_colour(DARK_TEAL)]
 async fn my_help(
     context: &mut Context,
     msg: &Message,
