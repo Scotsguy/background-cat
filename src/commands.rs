@@ -24,7 +24,7 @@ macro_rules! static_text_command {
                     m.embed(|e| {
                         e.title($title);
                         e.colour(Colour::DARK_TEAL);
-                        e.field(":question:", $message, false);
+                        e.description($message);
                         e.footer(|f| {
                             f.icon_url("https://cdn.discordapp.com/emojis/280120125284417536.png?v=1")
                         })
