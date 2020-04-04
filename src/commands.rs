@@ -74,8 +74,6 @@ macro_rules! static_image_command {
 
 // Format: Name (Optional Alias1 Alias2...) , Title , Message ;
 static_text_command! {
-    new_forge bsforge, "Forge in 1.13.2 and above is not supported in MultiMC.",
-        "For more info, please read https://multimc.org/posts/forge-114.html";
     install_java ijava, "Please install Java 8:",
         "https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java";
     too_much_ram tmram vazkiiram,
