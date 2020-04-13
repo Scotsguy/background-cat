@@ -11,6 +11,9 @@ use serenity::{
 use log::{debug, error};
 use serde::Deserialize;
 
+mod xkcd;
+use xkcd::XKCD_COMMAND;
+
 macro_rules! static_text_command {
     ( $($name:ident $($($aliases:ident)+)?, $title:tt, $message:tt;)+ ) => {
         #[group("Text")]
@@ -90,11 +93,11 @@ static_image_command! {
     select_memory smemory sram, "https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png",
         "Please set your instance memory allocation:";
     install_forge iforge, "https://cdn.discordapp.com/attachments/531598137790562305/575385471207866388/Install_Forge_in_MultiMC.gif",
-        "How to install Forge on Minecraft 1.12 and below:";
+        "How to install Forge:";
 }
 
 #[group]
-#[commands(info, drama)]
+#[commands(info)]
 struct Other;
 
 #[command]
@@ -123,6 +126,10 @@ To start, just upload a log from MultiMC. (Type `-log` for help)
             }
     Ok(())
 }
+
+#[group]
+#[commands(drama, xkcd)]
+struct Fun;
 
 #[derive(Deserialize)]
 struct Drama {

@@ -20,7 +20,7 @@ mod parsers;
 use parsers::PARSERS;
 
 mod commands;
-use commands::{OTHER_GROUP, STATICIMAGE_GROUP, STATICTEXT_GROUP};
+use commands::{FUN_GROUP, OTHER_GROUP, STATICIMAGE_GROUP, STATICTEXT_GROUP};
 
 #[tokio::main]
 async fn main() {
@@ -45,6 +45,7 @@ async fn main() {
         })
         .group(&STATICTEXT_GROUP)
         .group(&STATICIMAGE_GROUP)
+        .group(&FUN_GROUP)
         .group(&OTHER_GROUP)
         .help(&MY_HELP);
     let mut client = Client::new_with_framework(&token, Handler, framework)
