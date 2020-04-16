@@ -22,6 +22,9 @@ use parsers::PARSERS;
 mod commands;
 use commands::{FUN_GROUP, OTHER_GROUP, STATICIMAGE_GROUP, STATICTEXT_GROUP};
 
+mod hook;
+use hook::after_hook;
+
 #[tokio::main]
 async fn main() {
     kankyo::load(false).expect("Expected a .env file");
@@ -47,7 +50,9 @@ async fn main() {
         .group(&STATICIMAGE_GROUP)
         .group(&FUN_GROUP)
         .group(&OTHER_GROUP)
-        .help(&MY_HELP);
+        .help(&MY_HELP)
+        .after(after_hook);
+
     let mut client = Client::new_with_framework(&token, Handler, framework)
         .await
         .expect("Err creating client");
