@@ -6,6 +6,7 @@ use std::{collections::HashSet, env};
 
 use serenity::{
     async_trait,
+    client::bridge::gateway::GatewayIntents,
     framework::standard::{
         help_commands, macros::help, Args, CommandGroup, CommandResult, HelpOptions,
         StandardFramework,
@@ -27,10 +28,10 @@ use hook::after_hook;
 
 #[tokio::main]
 async fn main() {
-    kankyo::load(false).expect("Expected a .env file");
+    kankyo::load(false).expect("expected a .env file");
     env_logger::init();
 
-    let token = env::var("DISCORD_TOKEN").expect("Expected a token in $DISCORD_TOKEN");
+    let token = env::var("DISCORD_TOKEN").expect("expected a token in $DISCORD_TOKEN");
 
     let http = Http::new_with_token(&token);
     let bot_id = http
@@ -53,9 +54,14 @@ async fn main() {
         .help(&MY_HELP)
         .after(after_hook);
 
-    let mut client = Client::new_with_framework(&token, Handler, framework)
-        .await
-        .expect("Err creating client");
+    let mut client = Client::new_with_extras(&token, |extras| {
+        extras
+            .event_handler(Handler)
+            .framework(framework)
+            .intents(GatewayIntents::GUILD_MESSAGES | GatewayIntents::DIRECT_MESSAGES)
+    })
+    .await
+    .expect("error creating client");
 
     if let Err(why) = client.start().await {
         error!("Client error: {:?}", why);
