@@ -54,14 +54,12 @@ async fn main() {
         .help(&MY_HELP)
         .after(after_hook);
 
-    let mut client = Client::new_with_extras(&token, |extras| {
-        extras
-            .event_handler(Handler)
-            .framework(framework)
-            .intents(GatewayIntents::GUILD_MESSAGES | GatewayIntents::DIRECT_MESSAGES)
-    })
-    .await
-    .expect("error creating client");
+    let mut client = Client::new(&token)
+        .event_handler(Handler)
+        .framework(framework)
+        .intents(GatewayIntents::GUILD_MESSAGES | GatewayIntents::DIRECT_MESSAGES)
+        .await
+        .expect("error creating client");
 
     if let Err(why) = client.start().await {
         error!("Client error: {:?}", why);
@@ -75,7 +73,7 @@ async fn main() {
 #[max_levenshtein_distance(3)]
 #[embed_success_colour(DARK_TEAL)]
 async fn my_help(
-    context: &mut Context,
+    context: &Context,
     msg: &Message,
     args: Args,
     help_options: &'static HelpOptions,
@@ -133,7 +131,7 @@ impl EventHandler for Handler {
 
             if let Err(why) =
                 msg.channel_id
-                    .send_message(&ctx.http, |m| {
+                    .send_message(&ctx, |m| {
                         m.embed(|e| {
                             e.title("Automated Response: (Warning: Experimental)");
                             e.colour(Colour::DARK_TEAL);

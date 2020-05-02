@@ -7,7 +7,7 @@ use serenity::{
 
 #[hook]
 pub(crate) async fn after_hook(
-    _: &mut Context,
+    _: &Context,
     _: &Message,
     cmd_name: &str,
     result: Result<(), CommandError>,

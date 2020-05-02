@@ -27,7 +27,7 @@ struct WikiQuerySearch {
 #[usage = "[number or title]"]
 #[example = "1987"]
 #[example = "standards"]
-async fn xkcd(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult {
+async fn xkcd(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     const XKCD_URL: &str = "https://xkcd.com/";
     const EXPLAINXKCD_API_URL: &str = "https://www.explainxkcd.com/wiki/api.php";
     let number = if args.trimmed().parse::<u32>().is_ok() {

@@ -23,8 +23,8 @@ macro_rules! static_text_command {
         $(
             #[command]
             $( #[aliases($($aliases),+)] )?
-            async fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
-                if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
+            async fn $name(ctx: &Context, msg: &Message, _: Args) -> CommandResult {
+                if let Err(why) = msg.channel_id.send_message(&ctx, |m| {
                     m.embed(|e| {
                         e.title($title);
                         e.colour(Colour::DARK_TEAL);
@@ -53,8 +53,8 @@ macro_rules! static_image_command {
         $(
             #[command]
             $( #[aliases($($aliases),+)] )?
-            async fn $name(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
-                if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
+            async fn $name(ctx: &Context, msg: &Message, _: Args) -> CommandResult {
+                if let Err(why) = msg.channel_id.send_message(&ctx, |m| {
                     m.embed(|e| {
                         e.image($image);
                         $(e.title($message);)?
@@ -107,15 +107,15 @@ static_image_command! {
 struct Other;
 
 #[command]
-async fn info(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
-    let creator_name = match UserId::from(185_461_862_878_543_872).to_user(&ctx).await {
+async fn info(ctx: &Context, msg: &Message, _: Args) -> CommandResult {
+    let creator_name = match UserId::from(185_461_862_878_543_872).to_user(ctx).await {
         Ok(o) => o.tag(),
         Err(why) => {
             error!("Couldn't get info about creator: {}", why);
             "<Error getting name>".to_string()
         }
     };
-    if let Err(why) = msg.channel_id.send_message(&ctx.http, |m| {
+    if let Err(why) = msg.channel_id.send_message(&ctx, |m| {
                 m.embed(|e| {
                     e.title("<:backgroundcat:280120125284417536>A bot to parse logfiles on the MultiMC discord<:backgroundcat:280120125284417536>");
                     e.colour(Colour::DARK_TEAL);
@@ -148,7 +148,7 @@ struct Drama {
 #[description = "Generate some Minecraft modding drama."]
 #[description = "Add 'fabric' as the first argument for Fabric-brand drama"]
 #[usage = "[fabric]"]
-async fn drama(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
+async fn drama(ctx: &Context, msg: &Message, _: Args) -> CommandResult {
     const MC_DRAMA: &str = "https://ftb-drama.herokuapp.com";
     const FABRIC_DRAMA: &str = "https://fabric-drama.herokuapp.com";
 
@@ -167,7 +167,7 @@ async fn drama(ctx: &mut Context, msg: &Message, _: Args) -> CommandResult {
 
     if let Err(why) = msg
         .channel_id
-        .send_message(&ctx.http, |m| {
+        .send_message(&ctx, |m| {
             m.embed(|e| {
                 e.title("MC Drama Generator");
                 e.description(&drama.drama);
