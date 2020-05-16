@@ -15,7 +15,7 @@ mod xkcd;
 use xkcd::XKCD_COMMAND;
 
 macro_rules! static_text_command {
-    ( $($name:ident $($($aliases:ident)+)?, $title:tt, $message:tt;)+ ) => {
+    ( $($name:ident $($($aliases:literal)+)?, $title:tt, $message:tt;)+ ) => {
         #[group("Text")]
         #[commands( $($name),* )]
         struct StaticText;
@@ -45,7 +45,7 @@ macro_rules! static_text_command {
 }
 
 macro_rules! static_image_command {
-    ( $($name:ident $($($aliases:ident)+)?, $image:tt$(, $message:tt)?;)+ ) => {
+    ( $($name:ident $($($aliases:literal)+)?, $image:tt$(, $message:tt)?;)+ ) => {
         #[group("Images")]
         #[commands( $($name,)* )]
         struct StaticImage;
@@ -77,12 +77,12 @@ macro_rules! static_image_command {
 
 // Format: Name (Optional Alias1 Alias2...) , Title , Message ;
 static_text_command! {
-    install_java ijava, "Please install Java 8:",
+    install_java "ijava", "Please install Java 8:",
         "https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java";
-    too_much_ram tmram vazkiiram,
+    too_much_ram "tmram" "vazkiiram",
         "Allocating too much RAM to Minecraft is bad for performance:",
         "https://vazkii.net/#blog/ram-explanation";
-    mod_repost repost vazkiirepost 9mc 9minecraft,
+    mod_repost "repost" "vazkiirepost" "9mc" "9minecraft",
         "Please make sure you only download mods from reputable sources.",
         "For more info, please read https://vazkii.net/repost/";
     ipv4,
@@ -92,13 +92,13 @@ static_text_command! {
 
 // Format: Name (Optional Alias1 Alias2...) , Image Link (, Optional Message) ;
 static_image_command! {
-    upload_log log, "https://cdn.discordapp.com/attachments/531598137790562305/575381000398569493/unknown.png",
+    upload_log "log", "https://cdn.discordapp.com/attachments/531598137790562305/575381000398569493/unknown.png",
         "Please upload your log:";
-    select_java sjava, "https://cdn.discordapp.com/attachments/531598137790562305/575378380573114378/unknown.png",
+    select_java "sjava", "https://cdn.discordapp.com/attachments/531598137790562305/575378380573114378/unknown.png",
         "Please select your Java version in the MultiMC settings:";
-    select_memory smemory sram, "https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png",
+    select_memory "smemory" "sram", "https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png",
         "Please set your instance memory allocation:";
-    install_forge iforge, "https://cdn.discordapp.com/attachments/531598137790562305/575385471207866388/Install_Forge_in_MultiMC.gif",
+    install_forge "iforge", "https://cdn.discordapp.com/attachments/531598137790562305/575385471207866388/Install_Forge_in_MultiMC.gif",
         "How to install Forge:";
 }
 
