@@ -82,6 +82,9 @@ static_text_command! {
     too_much_ram tmram vazkiiram,
         "Allocating too much RAM to Minecraft is bad for performance:",
         "https://vazkii.net/#blog/ram-explanation";
+    mod_repost repost vazkiirepost,
+        "Please make sure you only download mods from reputable sources.",
+        "For more info, please read https://vazkii.net/repost/";
 }
 
 // Format: Name (Optional Alias1 Alias2...) , Image Link (, Optional Message) ;
