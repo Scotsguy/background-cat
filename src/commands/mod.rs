@@ -85,6 +85,9 @@ static_text_command! {
     mod_repost repost vazkiirepost,
         "Please make sure you only download mods from reputable sources.",
         "For more info, please read https://vazkii.net/repost/";
+    ipv4,
+        "Add this to your Java arguments to make Minecraft prefer IPv4 over IPv6:",
+        "`-Djava.net.preferIPv4Stack=true"`;
 }
 
 // Format: Name (Optional Alias1 Alias2...) , Image Link (, Optional Message) ;
