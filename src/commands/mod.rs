@@ -100,6 +100,8 @@ static_image_command! {
         "Please set your instance memory allocation:";
     install_forge "iforge", "https://cdn.discordapp.com/attachments/531598137790562305/575385471207866388/Install_Forge_in_MultiMC.gif",
         "How to install Forge:";
+    javaarg "javaargs" "jarg" "jargs",
+        "https://cdn.discordapp.com/attachments/362205883218001920/711410345301770300/MultiMC_JVM_Args.png";
 }
 
 #[group]
