@@ -52,7 +52,7 @@ fn id_range_exceeded(log: &str) -> Option<(&str, String)> {
 fn out_of_memory_error(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "java.lang.OutOfMemoryError";
     if log.contains(TRIGGER) {
-        Some(("‼", "You've run out of memory. You should allocate more, although the exact value depends on how many mods you have installed.".to_string()))
+        Some(("‼", "You've run out of memory. You should allocate more, although the exact value depends on how many mods you have installed. [Click this link for a guide.](https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png)".to_string()))
     } else {
         None
     }
