@@ -88,6 +88,9 @@ static_text_command! {
     ipv4,
         "Add this to your Java arguments to make Minecraft prefer IPv4 over IPv6:",
         "`-Djava.net.preferIPv4Stack=true`";
+    optifine,
+        "To use OptiFine with MultiMC, please read this page:",
+        "https://github.com/MultiMC/MultiMC5/wiki/MultiMC-and-OptiFine";
 }
 
 // Format: Name (Optional Alias1 Alias2...) , Image Link (, Optional Message) ;
