@@ -6,9 +6,10 @@ use regex::Regex;
 
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub(crate) const PARSERS: [Check; 12] = [
+pub(crate) const PARSERS: [Check; 13] = [
     multimc_in_program_files,
     server_java,
+    macos_too_new_java,
     multimc_in_onedrive_managed_folder,
     major_java_version,
     pixel_format_not_accelerated_win10,
@@ -34,6 +35,15 @@ fn server_java(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "-Bit Server VM warning";
     if log.contains(TRIGGER) {
         Some(("‼", "You're using the server version of Java. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)".to_string()))
+    } else {
+        None
+    }
+}
+
+fn macos_too_new_java(log: &str) -> Option<(&str, String)> {
+    const TRIGGER: &str = r#"Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'NSWindow drag regions should only be invalidated on the Main Thread!'"#;
+    if log.contains(TRIGGER) {
+        Some(("‼", "You are using too new a Java version. Please follow the steps on this wiki page to install 8u241: https://github.com/MultiMC/MultiMC5/wiki/Java-on-macOS".to_string()))
     } else {
         None
     }
