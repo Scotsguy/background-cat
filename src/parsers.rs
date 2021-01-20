@@ -51,7 +51,7 @@ fn id_range_exceeded(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str =
         "java.lang.RuntimeException: Invalid id 4096 - maximum id range exceeded.";
     if log.contains(TRIGGER) {
-        Some(("‼", "You've exceeded the hardcoded ID Limit. Remove some mods, or install [this one](https://www.curseforge.com/minecraft/mc-mods/notenoughids)".to_string()))
+        Some(("‼", "You've exceeded the hardcoded ID Limit. Remove some mods, or install [JustEnoughIDs](https://www.curseforge.com/minecraft/mc-mods/jeid)".to_string()))
     } else {
         None
     }
@@ -176,4 +176,3 @@ fn old_multimc_version(log: &str) -> Option<(&str, String)> {
         None
     }
 }
-
