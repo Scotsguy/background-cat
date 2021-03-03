@@ -5,7 +5,7 @@ use regex::Regex;
 
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub(crate) const PARSERS: [Check; 12] = [
+pub(crate) const PARSERS: [Check; 13] = [
     multimc_in_program_files,
     server_java,
     macos_too_new_java,
@@ -18,6 +18,7 @@ pub(crate) const PARSERS: [Check; 12] = [
     fabric_api_missing,
     java_architecture,
     old_multimc_version,
+	intel_igpu_driver_warning,
 ];
 
 fn multimc_in_program_files(log: &str) -> Option<(&str, String)> {
@@ -172,6 +173,17 @@ fn old_multimc_version(log: &str) -> Option<(&str, String)> {
                 ),
             )),
         }
+    } else {
+        None
+    }
+}
+
+fn intel_igpu_driver_warning(log: &str) -> Option<(&str, String)> {
+    lazy_static! {
+        static ref RE: Regex = Regex::new(r"C  \[(ig[0-9]+icd[0-9]+\.dll)\+(0x[0-9a-f]+)\]").unwrap();
+    }
+	if RE.is_match(log) {
+        Some(("❗", "You're probably using an old Intel iGPU with an incompatible driver on a newer Java release. [See here for help installing an older version.](https://github.com/MultiMC/MultiMC5/wiki/Unsupported-Intel-GPUs)".to_string()))
     } else {
         None
     }
