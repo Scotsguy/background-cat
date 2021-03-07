@@ -5,13 +5,14 @@ use regex::Regex;
 
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub(crate) const PARSERS: [Check; 12] = [
+pub(crate) const PARSERS: [Check; 13] = [
     multimc_in_program_files,
     server_java,
     macos_too_new_java,
     multimc_in_onedrive_managed_folder,
     major_java_version,
     pixel_format_not_accelerated_win10,
+    intel_graphics_icd_dll,
     id_range_exceeded,
     out_of_memory_error,
     shadermod_optifine_conflict,
@@ -125,6 +126,19 @@ fn pixel_format_not_accelerated_win10(log: &str) -> Option<(&str, String)> {
     const LWJGL_EXCEPTION: &str = "org.lwjgl.LWJGLException: Pixel format not accelerated";
     const WIN10: &str = "Operating System: Windows 10";
     if log.contains(LWJGL_EXCEPTION) && log.contains(WIN10) {
+        Some(("❗", "You seem to be using an Intel GPU that is not supported on Windows 10. \
+         You will need to install an older version of Java, [see here for help](https://github.com/MultiMC/MultiMC5/wiki/Unsupported-Intel-GPUs)".to_string()))
+    } else {
+        None
+    }
+}
+
+fn intel_graphics_icd_dll(log: &str) -> Option<(&str, String)> {
+    lazy_static! {
+        static ref RE: Regex =
+            Regex::new(r"C  \[(ig[0-9]+icd[0-9]+\.dll)\+(0x[0-9a-f]+)\]").unwrap();
+    }
+    if RE.is_match(log) {
         Some(("❗", "You seem to be using an Intel GPU that is not supported on Windows 10. \
          You will need to install an older version of Java, [see here for help](https://github.com/MultiMC/MultiMC5/wiki/Unsupported-Intel-GPUs)".to_string()))
     } else {
