@@ -12,13 +12,13 @@ pub(crate) const PARSERS: [Check; 13] = [
     multimc_in_onedrive_managed_folder,
     major_java_version,
     pixel_format_not_accelerated_win10,
+    intel_graphics_icd_dll,
     id_range_exceeded,
     out_of_memory_error,
     shadermod_optifine_conflict,
     fabric_api_missing,
     java_architecture,
     old_multimc_version,
-    intel_igpu_driver_warning,
 ];
 
 fn multimc_in_program_files(log: &str) -> Option<(&str, String)> {
@@ -133,6 +133,19 @@ fn pixel_format_not_accelerated_win10(log: &str) -> Option<(&str, String)> {
     }
 }
 
+fn intel_graphics_icd_dll(log: &str) -> Option<(&str, String)> {
+    lazy_static! {
+        static ref RE: Regex =
+            Regex::new(r"C  \[(ig[0-9]+icd[0-9]+\.dll)\+(0x[0-9a-f]+)\]").unwrap();
+    }
+    if RE.is_match(log) {
+        Some(("❗", "You seem to be using an Intel GPU that is not supported on Windows 10. \
+         You will need to install an older version of Java, [see here for help](https://github.com/MultiMC/MultiMC5/wiki/Unsupported-Intel-GPUs)".to_string()))
+    } else {
+        None
+    }
+}
+
 fn java_architecture(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "Your Java architecture is not matching your system architecture.";
     if log.contains(TRIGGER) {
@@ -173,17 +186,6 @@ fn old_multimc_version(log: &str) -> Option<(&str, String)> {
                 ),
             )),
         }
-    } else {
-        None
-    }
-}
-
-fn intel_igpu_driver_warning(log: &str) -> Option<(&str, String)> {
-    lazy_static! {
-        static ref RE: Regex = Regex::new(r"C  \[(ig[0-9]+icd[0-9]+\.dll)\+(0x[0-9a-f]+)\]").unwrap();
-    }
-    if RE.is_match(log) {
-        Some(("❗", "You're probably using an old Intel iGPU with an incompatible driver on a newer Java release. [See here for help installing an older version.](https://github.com/MultiMC/MultiMC5/wiki/Unsupported-Intel-GPUs)".to_string()))
     } else {
         None
     }
