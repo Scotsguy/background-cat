@@ -81,7 +81,7 @@ static_text_command! {
         "https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java";
     too_much_ram "tmram" "vazkiiram",
         "Allocating too much RAM to Minecraft is bad for performance:",
-        "https://vazkii.net/#blog/ram-explanation";
+        "https://vazkii.net/blog_archive/#blog/ram-explanation";
     mod_repost "repost" "vazkiirepost" "9mc" "9minecraft",
         "Please make sure you only download mods from reputable sources.",
         "For more info, please read https://vazkii.net/repost/";
