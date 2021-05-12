@@ -5,12 +5,12 @@ use regex::Regex;
 
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub(crate) const PARSERS: [Check; 13] = [
+pub(crate) const PARSERS: [Check; 12] = [
     multimc_in_program_files,
     server_java,
     macos_too_new_java,
     multimc_in_onedrive_managed_folder,
-    major_java_version,
+    //major_java_version,
     pixel_format_not_accelerated_win10,
     intel_graphics_icd_dll,
     id_range_exceeded,
@@ -103,7 +103,7 @@ fn multimc_in_onedrive_managed_folder(log: &str) -> Option<(&str, String)> {
         None
     }
 }
-
+/*
 fn major_java_version(log: &str) -> Option<(&str, String)> {
     lazy_static! {
         static ref RE: Regex =
@@ -121,6 +121,7 @@ fn major_java_version(log: &str) -> Option<(&str, String)> {
         _ => None,
     }
 }
+*/
 
 fn pixel_format_not_accelerated_win10(log: &str) -> Option<(&str, String)> {
     const LWJGL_EXCEPTION: &str = "org.lwjgl.LWJGLException: Pixel format not accelerated";
