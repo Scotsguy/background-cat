@@ -5,12 +5,13 @@ use regex::Regex;
 
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub(crate) const PARSERS: [Check; 12] = [
+pub(crate) const PARSERS: [Check; 13] = [
     multimc_in_program_files,
     server_java,
     macos_too_new_java,
     multimc_in_onedrive_managed_folder,
     //major_java_version,
+    one_seventeen_java_too_new,
     pixel_format_not_accelerated_win10,
     intel_graphics_icd_dll,
     id_range_exceeded,
@@ -122,6 +123,16 @@ fn major_java_version(log: &str) -> Option<(&str, String)> {
     }
 }
 */
+
+fn one_seventeen_java_too_new(log: &str) -> Option<(&str, String)> {
+    const UNSUPPORTED_CLASS_VERSION_ERROR: &str =
+        "java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main";
+    if log.contains(UNSUPPORTED_CLASS_VERSION_ERROR) {
+        Some(("‼", "You are playing a version of Minecraft that requires Java 16, but are using an older Java version. Please install Java 16 and select it in MultiMC.".to_string()))
+    } else {
+        None
+    }
+}
 
 fn pixel_format_not_accelerated_win10(log: &str) -> Option<(&str, String)> {
     const LWJGL_EXCEPTION: &str = "org.lwjgl.LWJGLException: Pixel format not accelerated";
