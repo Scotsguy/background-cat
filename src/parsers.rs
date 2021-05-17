@@ -5,9 +5,8 @@ use regex::Regex;
 
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub(crate) const PARSERS: [Check; 14] = [
+pub(crate) const PARSERS: [Check; 13] = [
     multimc_in_program_files,
-    server_java,
     macos_too_new_java,
     multimc_in_onedrive_managed_folder,
     //major_java_version,
@@ -27,15 +26,6 @@ fn multimc_in_program_files(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "Minecraft folder is:\nC:/Program Files";
     if log.contains(TRIGGER) {
         Some(("‼", "Your MultiMC installation is in Program Files, where MultiMC doesn't have permission to write.\nYou should move it somewhere else, like your Desktop.".to_string()))
-    } else {
-        None
-    }
-}
-
-fn server_java(log: &str) -> Option<(&str, String)> {
-    const TRIGGER: &str = "-Bit Server VM warning";
-    if log.contains(TRIGGER) {
-        Some(("‼", "You're using the server version of Java. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)".to_string()))
     } else {
         None
     }
