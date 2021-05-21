@@ -134,6 +134,15 @@ fn one_seventeen_java_too_new(log: &str) -> Option<(&str, String)> {
     }
 }
 
+fn m1_failed_to_find_service_port(log: &str) -> Option<(&str, String)> {
+    const TRIGGER: &str = "java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed to find service port for display";
+    if log.contains(TRIGGER) {
+        Some(("‼", "You seem to be using an Apple M1 Mac with an incompatible version of Forge. Add the following to your launch arguments as a workaround: `-Dfml.earlyprogresswindow=false`".to_string()))
+    } else {
+        None
+    }
+}
+
 fn pixel_format_not_accelerated_win10(log: &str) -> Option<(&str, String)> {
     const LWJGL_EXCEPTION: &str = "org.lwjgl.LWJGLException: Pixel format not accelerated";
     const WIN10: &str = "Operating System: Windows 10";
