@@ -5,13 +5,14 @@ use regex::Regex;
 
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
-pub(crate) const PARSERS: [Check; 13] = [
+pub(crate) const PARSERS: [Check; 14] = [
     multimc_in_program_files,
     macos_too_new_java,
     multimc_in_onedrive_managed_folder,
     //major_java_version,
     forge_too_new_java,
     one_seventeen_java_too_new,
+    m1_failed_to_find_service_port,
     pixel_format_not_accelerated_win10,
     intel_graphics_icd_dll,
     id_range_exceeded,
