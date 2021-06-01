@@ -129,7 +129,7 @@ fn one_seventeen_java_too_new(log: &str) -> Option<(&str, String)> {
     const UNSUPPORTED_CLASS_VERSION_ERROR: &str =
         "java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main";
     if log.contains(UNSUPPORTED_CLASS_VERSION_ERROR) {
-        Some(("‼", "You are playing a version of Minecraft that requires Java 16, but are using an older Java version. Please install Java 16 and select it in MultiMC.".to_string()))
+        Some(("‼", "You are playing a version of Minecraft that requires Java 16, but are using an older Java version. [Please install Java 16, click here for help.](https://adoptopenjdk.net/releases.html?variant=openjdk16&jvmVariant=hotspot)".to_string()))
     } else {
         None
     }
