@@ -129,7 +129,7 @@ fn one_seventeen_java_too_new(log: &str) -> Option<(&str, String)> {
     const UNSUPPORTED_CLASS_VERSION_ERROR: &str =
         "java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main";
     if log.contains(UNSUPPORTED_CLASS_VERSION_ERROR) {
-        Some(("‼", "You are playing a version of Minecraft that requires Java 16, but are using an older Java version. [Please install Java 16, click here for help.](https://discord.com/channels/132965178051526656/134843027553255425/852620282027835392)".to_string()))
+        Some(("‼", "You are playing a version of Minecraft that requires Java 16, but are using an older Java version. [Please install Java 16](https://adoptopenjdk.net/releases.html?variant=openjdk16&jvmVariant=hotspot). Select your OS and select x64. Then download the JRE zip file like shown [here](https://i.imgur.com/h7oosNp.png). Extract it, then edit your 1.17+ instance java settings and [browse](https://i.imgur.com/OKdzvgk.png) for the extracted java location and select the `javaw` executable in the bin folder.".to_string()))
     } else {
         None
     }
