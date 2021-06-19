@@ -26,7 +26,8 @@ pub(crate) const PARSERS: [Check; 14] = [
 fn multimc_in_program_files(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "Minecraft folder is:\nC:/Program Files";
     if log.contains(TRIGGER) {
-        Some(("‼", "Your MultiMC installation is in Program Files, where MultiMC doesn't have permission to write.\nYou should move it somewhere else, like your Desktop.".to_string()))
+        Some(("‼", "Your MultiMC installation is in Program Files, where MultiMC doesn't have permission to write.\n\
+        You should move it somewhere else, like your Desktop.".to_string()))
     } else {
         None
     }
@@ -54,7 +55,8 @@ fn id_range_exceeded(log: &str) -> Option<(&str, String)> {
 fn out_of_memory_error(log: &str) -> Option<(&str, String)> {
     const TRIGGER: &str = "java.lang.OutOfMemoryError";
     if log.contains(TRIGGER) {
-        Some(("‼", "You've run out of memory. You should allocate more, although the exact value depends on how many mods you have installed. [Click this link for a guide.](https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png)".to_string()))
+        Some(("‼", "You've run out of memory. You should allocate more, although the exact value depends on how many mods you have installed. \
+        [Click this link for a guide.](https://cdn.discordapp.com/attachments/531598137790562305/575376840173027330/unknown.png)".to_string()))
     } else {
         None
     }
@@ -91,7 +93,8 @@ fn multimc_in_onedrive_managed_folder(log: &str) -> Option<(&str, String)> {
         static ref RE: Regex = Regex::new(r"Minecraft folder is:\nC:/.+/.+/OneDrive").unwrap();
     }
     if RE.is_match(log) {
-        Some(("❗", "MultiMC is located in a folder managed by OneDrive. OneDrive messes with Minecraft folders while the game is running, and this often leads to crashes.\nYou should move the MultiMC folder to a different folder.".to_string()))
+        Some(("❗", "MultiMC is located in a folder managed by OneDrive. OneDrive messes with Minecraft folders while the game is running, \
+        and this often leads to crashes.\nYou should move the MultiMC folder to a different folder.".to_string()))
     } else {
         None
     }
@@ -107,7 +110,8 @@ fn major_java_version(log: &str) -> Option<(&str, String)> {
         Some(capture) => Some((
             "❗",
             format!(
-                "You're using Java {}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)",
+                "You're using Java {}. Versions other than Java 8 are not designed to be used with Minecraft and may cause issues. \
+                [See here for help installing the correct version.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)",
                 capture.name("ver")?.as_str()
             ),
         )),
@@ -119,7 +123,8 @@ fn major_java_version(log: &str) -> Option<(&str, String)> {
 fn forge_too_new_java(log: &str) -> Option<(&str, String)> {
     const URLCLASSLOADER_CAST: &str = "java.lang.ClassCastException: class jdk.internal.loader.ClassLoaders$AppClassLoader cannot be cast to class java.net.URLClassLoader";
     if log.contains(URLCLASSLOADER_CAST) {
-        Some(("‼", "The version of Minecraft you are playing does not support using modern versions of Java. [Please use Java 8, click here for help.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)".to_string()))
+        Some(("‼", "The version of Minecraft you are playing does not support using modern versions of Java. \
+        [Please use Java 8, click here for help.](https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java)".to_string()))
     } else {
         None
     }
@@ -131,10 +136,11 @@ fn one_seventeen_java_too_new(log: &str) -> Option<(&str, String)> {
     const FABRIC_JAVA_VERSION_ERROR: &str = "fabric requires {java @ [>=16]}";
     if log.contains(UNSUPPORTED_CLASS_VERSION_ERROR) || log.contains(FABRIC_JAVA_VERSION_ERROR) {
         Some(("‼", "You are playing a version of Minecraft that requires Java 16, but are using an older Java version. \n\
-        Please install Java 16 you can find downloads [here](https://www.azul.com/downloads/?version=java-16-sts&architecture=x86-64-bit&package=jre#download-openjdk))\n
-        On Windows: After installation you may have to update MultiMC to detect the new Java version, to do so open the settings and change Update Channel to 'Development', then update MultiMC.\n\
-        Open the MultiMC Java settings and make sure Java 8 is still selected as default for more help with that run `-sjava`.
-        Then edit your 1.17 instance settings, open the Java tab, check 'Java Installation', click 'Auto-detect..' and select Java 16. ".to_string()))
+        Please install Java 16 you can find downloads [here](https://www.azul.com/downloads/?version=java-16-sts&architecture=x86-64-bit&package=jre#download-openjdk))\n\
+        On Windows: Download the .msi file. After installation you may have to update MultiMC to detect the new Java version, to do so open the settings and \
+        change Update Channel to 'Development', then update MultiMC.\n\
+        Open the MultiMC Java settings and make sure Java 8 is still selected as default for more help with that run `-sjava`.\
+        Then edit your 1.17 instance settings, open the Java tab, check 'Java Installation', click 'Auto-detect..' and select Java 16.".to_string()))
     } else {
         None
     }

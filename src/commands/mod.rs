@@ -110,6 +110,8 @@ static_image_command! {
         "How to install Forge:";
     javaarg "javaargs" "jarg" "jargs",
         "https://cdn.discordapp.com/attachments/362205883218001920/711410345301770300/MultiMC_JVM_Args.png";
+    multimc_dev "dev", "https://cdn.discordapp.com/attachments/134843027553255425/855880510031003728/unknown.png",
+        "How to switch to the MultiMC development version:";
 }
 
 #[group]
