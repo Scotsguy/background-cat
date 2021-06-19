@@ -128,8 +128,13 @@ fn forge_too_new_java(log: &str) -> Option<(&str, String)> {
 fn one_seventeen_java_too_new(log: &str) -> Option<(&str, String)> {
     const UNSUPPORTED_CLASS_VERSION_ERROR: &str =
         "java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main";
-    if log.contains(UNSUPPORTED_CLASS_VERSION_ERROR) {
-        Some(("‼", "You are playing a version of Minecraft that requires Java 16, but are using an older Java version. [Please install Java 16](https://adoptopenjdk.net/releases.html?variant=openjdk16&jvmVariant=hotspot). Select your OS and select x64. Then download the JRE zip file like shown [here](https://i.imgur.com/h7oosNp.png). Extract it, then edit your 1.17+ instance java settings and [browse](https://i.imgur.com/OKdzvgk.png) for the extracted java location and select the `javaw` executable in the bin folder.".to_string()))
+    const FABRIC_JAVA_VERSION_ERROR: &str = "fabric requires {java @ [>=16]}";
+    if log.contains(UNSUPPORTED_CLASS_VERSION_ERROR) || log.contains(FABRIC_JAVA_VERSION_ERROR) {
+        Some(("‼", "You are playing a version of Minecraft that requires Java 16, but are using an older Java version. \n\
+        Please install Java 16 you can find downloads [here](https://www.azul.com/downloads/?version=java-16-sts&architecture=x86-64-bit&package=jre#download-openjdk))\n
+        On Windows: After installation you may have to update MultiMC to detect the new Java version, to do so open the settings and change Update Channel to 'Development', then update MultiMC.\n\
+        Open the MultiMC Java settings and make sure Java 8 is still selected as default for more help with that run `-sjava`.
+        Then edit your 1.17 instance settings, open the Java tab, check 'Java Installation', click 'Auto-detect..' and select Java 16. ".to_string()))
     } else {
         None
     }
