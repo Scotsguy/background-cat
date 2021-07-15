@@ -54,7 +54,7 @@ async fn main() {
         .help(&MY_HELP)
         .after(after_hook);
 
-    let mut client = Client::new(&token)
+    let mut client = Client::builder(&token)
         .event_handler(Handler)
         .framework(framework)
         .intents(GatewayIntents::GUILD_MESSAGES | GatewayIntents::DIRECT_MESSAGES)
@@ -80,7 +80,8 @@ async fn my_help(
     groups: &[&'static CommandGroup],
     owners: HashSet<UserId>,
 ) -> CommandResult {
-    help_commands::with_embeds(context, msg, args, help_options, groups, owners).await
+    let _ = help_commands::with_embeds(context, msg, args, help_options, groups, owners).await;
+    Ok(())
 }
 
 fn common_mistakes(input: &str) -> Vec<(&str, String)> {
