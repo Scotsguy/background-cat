@@ -91,11 +91,6 @@ static_text_command! {
     optifine,
         "To use OptiFine with MultiMC, please read this page:",
         "https://github.com/MultiMC/MultiMC5/wiki/MultiMC-and-OptiFine";
-    microsoft_accounts "msft" "msaccounts" "msa",
-    "Microsoft accounts are not yet supported",
-    "We don't currently have a timeline for when they will be supported.
-    When we do, we'll let you know in <#284674030055981057>. Read the <#546322531917758466> for more information";
-
 }
 
 // Format: Name (Optional Alias1 Alias2...) , Image Link (, Optional Message) ;
