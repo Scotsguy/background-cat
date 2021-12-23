@@ -77,7 +77,7 @@ macro_rules! static_image_command {
 
 // Format: Name (Optional Alias1 Alias2...) , Title , Message ;
 static_text_command! {
-    install_java "ijava", "Please install Java 8:",
+    install_java "ijava", "Please install the right Java version:",
         "https://github.com/MultiMC/MultiMC5/wiki/Using-the-right-Java";
     too_much_ram "tmram" "vazkiiram",
         "Allocating too much RAM to Minecraft is bad for performance:",
