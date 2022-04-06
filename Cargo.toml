@@ -2,20 +2,20 @@
 name = "background_cat"
 version = "0.1.0"
 authors = ["AppleTheGolden <scotsbox@protonmail.com>"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-regex = "1.3.7"
+regex = "1.5.5"
 lazy_static = "1.4.0"
-reqwest = { version = "0.11.4", features = ["json"] }
-log = { version = "0.4.8", features = ["release_max_level_info"] }
-env_logger = "0.8.4"
+reqwest = { version = "0.11.10", features = ["json"] }
+log = { version = "0.4.16", features = ["release_max_level_info"] }
+env_logger = "0.9.0"
 kankyo = "0.3.0"
-tokio = { version = "1.8.1", features = ["macros", "rt-multi-thread"] }
-futures = "0.3.4"
-serde = { version = "1.0.106", features = ["derive"] }
+tokio = { version = "1.17.0", features = ["macros", "rt-multi-thread"] }
+futures = "0.3.21"
+serde = { version = "1.0.136", features = ["derive"] }
 
 [dependencies.serenity]
 version = "0.10"
