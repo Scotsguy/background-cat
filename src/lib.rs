@@ -3,6 +3,10 @@
 use lazy_static::lazy_static;
 use regex::Regex;
 
+pub fn common_mistakes(input: &str) -> Vec<(&str, String)> {
+    PARSERS.iter().flat_map(|m| m(input)).collect()
+}
+
 pub(crate) type Check = fn(&str) -> Option<(&str, String)>;
 
 pub(crate) const PARSERS: [Check; 14] = [
@@ -135,7 +139,10 @@ fn one_seventeen_plus_java_too_old(log: &str) -> Option<(&str, String)> {
         "java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main";
     const FABRIC_JAVA_VERSION_ERROR: &str = "fabric requires {java @ [>=16]}";
     const FABRIC_JAVA_VERSION_ERROR_SEVENTEEN: &str = "fabric requires {java @ [>=17]}";
-    if log.contains(UNSUPPORTED_CLASS_VERSION_ERROR) || log.contains(FABRIC_JAVA_VERSION_ERROR) || log.contains(FABRIC_JAVA_VERSION_ERROR_SEVENTEEN) {
+    if log.contains(UNSUPPORTED_CLASS_VERSION_ERROR)
+        || log.contains(FABRIC_JAVA_VERSION_ERROR)
+        || log.contains(FABRIC_JAVA_VERSION_ERROR_SEVENTEEN)
+    {
         Some(("‼", "You are playing a version of Minecraft that requires Java 17, but are using an older Java version. \n\
         Please install Java 17 you can find downloads [here](https://www.azul.com/downloads/?version=java-17-lts&architecture=x86-64-bit&package=jre)\n\
         On Windows: Download the .msi file. After installation you may have to update MultiMC to detect the new Java version, to do so open the settings and \

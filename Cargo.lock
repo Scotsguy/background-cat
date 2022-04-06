@@ -66,15 +66,9 @@ name = "background_cat"
 version = "0.1.0"
 dependencies = [
  "env_logger",
- "futures",
- "kankyo",
  "lazy_static",
  "log",
  "regex",
- "reqwest",
- "serde",
- "serenity",
- "tokio",
 ]
 
 [[package]]
@@ -154,6 +148,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "cli-cat"
+version = "0.1.0"
+dependencies = [
+ "background_cat",
+]
+
+[[package]]
 name = "command_attr"
 version = "0.3.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -205,6 +206,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d3dd60d1080a57a05ab032377049e0591415d2b31afd7028356dbf3cc6dcb066"
 dependencies = [
  "generic-array",
+]
+
+[[package]]
+name = "discord-cat"
+version = "0.1.0"
+dependencies = [
+ "background_cat",
+ "env_logger",
+ "futures",
+ "kankyo",
+ "lazy_static",
+ "log",
+ "regex",
+ "reqwest",
+ "serde",
+ "serenity",
+ "tokio",
 ]
 
 [[package]]

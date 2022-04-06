@@ -17,8 +17,7 @@ use serenity::{
     utils::Colour,
 };
 
-mod parsers;
-use parsers::PARSERS;
+use background_cat::common_mistakes;
 
 mod commands;
 use commands::{FUN_GROUP, OTHER_GROUP, STATICIMAGE_GROUP, STATICTEXT_GROUP};
@@ -82,10 +81,6 @@ async fn my_help(
 ) -> CommandResult {
     let _ = help_commands::with_embeds(context, msg, args, help_options, groups, owners).await;
     Ok(())
-}
-
-fn common_mistakes(input: &str) -> Vec<(&str, String)> {
-    PARSERS.iter().flat_map(|m| m(input)).collect()
 }
 
 /// Takes a string of an URL, returns the content.
